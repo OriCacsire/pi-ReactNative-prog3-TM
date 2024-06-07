@@ -1,15 +1,19 @@
-const firebaseConfig = { //HAY QUE CAMBIARLO
-    apiKey: "AIzaSyBH_Yhn_HuoheNJzK9pAnWAPQilwDEKTpY",
-    authDomain: "clase-1-57433.firebaseapp.com",
-    projectId: "clase-1-57433",
-    storageBucket: "clase-1-57433.appspot.com",
-    messagingSenderId: "733334182251",
-    appId: "1:733334182251:web:c20516cc5cc4202081542e"
-  };
+import app from 'firebase/app'
+import firebase from 'firebase';
 
-  app.initializeApp(firebaseConfig)
+const firebaseConfig = {
+  apiKey: "AIzaSyBTVkSA2Lq6x0TitvL3g0o4vA1EboGxGk4",
+  authDomain: "pi-prog3.firebaseapp.com",
+  projectId: "pi-prog3",
+  storageBucket: "pi-prog3.appspot.com",
+  messagingSenderId: "108356083545",
+  appId: "1:108356083545:web:9872d708a45c3ef2453648"
+};
 
-  export const auth = firebase.auth()
-  export const db = app.firestore()
-  export const storage = app.storage()
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+export const auth = firebase.auth()
+export const db = app.firestore()
+export const storage = app.storage()
 
