@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, TouchableOpacity } from 'react-native'
-import { auth } from "../firebase/config"
+import { auth,db } from "../firebase/config"
 
 export default class Home extends Component {
   constructor(props){
@@ -14,7 +14,7 @@ export default class Home extends Component {
     if (descripcion !== "") {
         db.collection("posts").add({
             descripcion: descripcion,
-            owner:auth.currentUser.email,
+            owner:"prueba",
             createdAt: Date.now(),
             imageUrl: "", //FALTA
             likes: [],
