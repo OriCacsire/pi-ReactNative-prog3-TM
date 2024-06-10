@@ -7,7 +7,7 @@ function App() {
   return (
     <View style = {styles.contenedorMain}>
       {/* <CrearPost/> */}
-      <Register/>
+      <MainNav/>
     </View>
   );
 }

@@ -20,9 +20,8 @@ class Register extends Component {
         errorPassword: '',
         errorMail: '',
       },
-      // ¿CREO UN OBJETO LITERAL CON LOS POSIBLES ERRORES ESPECIFICOS ¿SE PUDE?
       mailExite: '',
-      // step1: true,
+      userRegistrado: false,
       userId: ''
     }
   }
@@ -51,6 +50,7 @@ class Register extends Component {
     }
 
     auth.createUserWithEmailAndPassword(email, password)
+
       .then((user) => {
         db.collection('users')
           .add({
@@ -61,7 +61,7 @@ class Register extends Component {
             fotoPerfil: this.state.fotoPerfil
           })
           .then((resp) => {
-            then.setState({
+            this.setState({
               userId: resp.id,
               email: '',
               password: '',
@@ -74,7 +74,7 @@ class Register extends Component {
                 errorMail: '',
               },
               mailExite: '',
-            }, () => this.props.navigation.navigate('TabNav')
+            }, () => this.props.navigation.navigate('login') //por ser una screen recibe this.props.navigation.navigate. A una componente le mandamos como props
             )
           })
           .catch((err) => console.log(err))
@@ -88,7 +88,7 @@ class Register extends Component {
   actualizarImgUrl(url) {
     this.setState({
       fotoPerfil: url,
-    }, ()=>{this.saveImg(this.state.fotoPerfil)})
+    }, () => { this.saveImg(this.state.fotoPerfil) })
   }
 
   mostrarCamara(email, password, name) {
@@ -114,137 +114,140 @@ class Register extends Component {
       });
     } else {
       this.onSubmit(this.state.email, this.state.password, this.state.name)
-      // luego ir cambiando el paso uno a false?
+      this.setState({
+        userRegistrado: false
+      })
     }
 
   }
-  saveImg(url){
+  saveImg(url) {
     console.log('usa el saveImg')
     db.collection('users')
-    .doc(this.state.userId)
-    .update({
-      fotoPerfil:url
-    })
-    .then((resp)=>{
-      this.setState({
-        fotoPerfil:'',
-      }, ()=>this.navigation.navigate('TabNav'))
-    })
-    .catch((err)=> console.log(err))
+      .doc(this.state.userId)
+      .update({
+        fotoPerfil: url
+      })
+      .then((resp) => {
+        this.setState({
+          fotoPerfil: '',
+        }, () => this.navigation.navigate('tabNav'))
+      })
+      .catch((err) => console.log(err))
   }
+
 
   render() {
     return (
       <View style={styles.container}>
-        {   this.state.fotoPerfil === ''
-            ?
-            <CameraPost
-            actualizarImgUrl ={(url)=> this.actualizarImgUrl(url)}
-            saveImg={(url)=> this.saveImg(url)}
-             />
+        {this.state.userRegistrado === true
+          ?
+          <CameraPost
+            actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
+            saveImg={(url) => this.saveImg(url)}
+          />
 
-            :
+          :
+          <View>
+            <Text style={styles.title}> Registrate en nuestra página</Text>
             <View>
-              <Text style={styles.title}> Registrate en nuestra página</Text>
-              <View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Ingresar correo electrónico'
-                  keyboardType="email-address"
-                  onChangeText={(text) => this.setState({ email: text, errorMail: '' })}
-                  value={this.state.email}
-                />
-                {this.state.errors.errorMail !== ''
+              <TextInput
+                style={styles.input}
+                placeholder='Ingresar correo electrónico'
+                keyboardType="email-address"
+                onChangeText={(text) => this.setState({ email: text, errorMail: '' })}
+                value={this.state.email}
+              />
+              {this.state.errors.errorMail !== ''
+                ?
+                <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
+                :
+                ''
+              }
+              {this.state.mailExite !== ''
+                ?
+                <Text style={styles.errorText}>{this.state.mailExite}</Text>
+
+                :
+                ''
+              }
+
+              <TextInput
+                style={styles.input}
+                placeholder="Ingresa una contraseña"
+                keyboardType="defaul"
+                secureTextEntry={true}
+                onChangeText={(text) => this.setState({ password: text, errorPassword: '' })}
+                value={this.state.password}
+              />
+              {
+                this.state.errors.errorPassword !== ''
                   ?
-                  <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
+                  <Text>{this.state.errors.errorPassword}</Text> //pregunta: por que a veces funciona cuando pongo errors y cuando si o si me pide que le pase this.stste.errors
                   :
                   ''
+              }
+              <TextInput
+                style={styles.input}
+                keyboardType='default'
+                placeholder='Nombre de usuario'
+                onChangeText={(text) => this.setState({ name: text, errorName: '' })}
+                value={this.state.name}
+              />
+
+              {this.state.errors.errorName !== ''
+                ?
+                <Text>{this.state.errors.errorName}</Text>
+                :
+                ''
+              }
+
+              <TextInput
+                style={styles.input}
+                placeholder="Crea una minibio"
+                keyboardType="default"
+                value={this.state.minBio}
+                onChangeText={(text) => this.setState({
+                  minBio: text,
+                })
                 }
-                {this.state.mailExite !== ''
-                  ?
-                  <Text style={styles.errorText}>{this.state.mailExite}</Text>
+              />
 
-                  :
-                  ''
-                }
+              <Text style={styles.textLink}>
+                ¿Ya tienes una cuenta?
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('login')}
+                >
+                  <Text style={styles.link}> Inicia sesión </Text>
+                </TouchableOpacity>
+              </Text>
 
-                <TextInput
-                  style={styles.input}
-                  placeholder="Ingresa una contraseña"
-                  keyboardType="defaul"
-                  secureTextEntry={true}
-                  onChangeText={(text) => this.setState({ password: text, errorPassword: '' })}
-                  value={this.state.password}
-                />
-                {
-                  this.state.errors.errorPassword !== ''
-                    ?
-                    <Text>{this.state.errors.errorPassword}</Text> //pregunta: por que a veces funciona cuando pongo errors y cuando si o si me pide que le pase this.stste.errors
-                    :
-                    ''
-                }
-                <TextInput
-                  style={styles.input}
-                  keyboardType='default'
-                  placeholder='Nombre de usuario'
-                  onChangeText={(text) => this.setState({ name: text, errorName: '' })}
-                  value={this.state.name}
-                />
-
-                {this.state.errors.errorName !== ''
-                  ?
-                  <Text>{this.state.errors.errorName}</Text>
-                  :
-                  ''
-                }
-
-                <TextInput
-                  style={styles.input}
-                  placeholder="Crea una minibio"
-                  keyboardType="default"
-                  value={this.state.minBio}
-                  onChangeText={(text) => this.setState({
-                    minBio: text,
-                  })
-                  }
-                />
-
-                <Text style={styles.textLink}>
-                  ¿Ya tienes una cuenta?
+              {this.state.email === '' || this.state.password === '' || this.state.name === ''
+                ?
+                ''
+                :
+                <View>
                   <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Login')}
+                    style={styles.btn}
+
+                    onPress={() => this.onSubmit(this.state.email, this.state.password, this.state.name)}
+
                   >
-                    <Text style={styles.link}> Inicia sesión </Text>
+                    <Text style={styles.textBtn}>Regístrame</Text>
                   </TouchableOpacity>
-                </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.mostrarCamara(this.state.email, this.state.password, this.state.name)
+                    }}
+                    style={[styles.btn, { marginTop: 16 }]}
+                  >
+                    <Text style={styles.textBtn}>Tomar foto ahora !! </Text>
+                  </TouchableOpacity>
+                </View>
+              }
 
-                {this.state.email === '' || this.state.password === '' || this.state.name === ''
-                  ?
-                  ''
-                  :
-                  <View>
-                    <TouchableOpacity
-                      style={styles.btn}
-
-                      onPress={() => this.onSubmit(this.state.email, this.state.password, this.state.name)}
-
-                    >
-                      <Text style={styles.textBtn}>Regístrame</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.mostrarCamara(this.state.email, this.state.password, this.state.name)
-                      }}
-                      style={[styles.btn, { marginTop: 16 }]}
-                    >
-                      <Text style={styles.textBtn}>Tomar foto ahora !! </Text>
-                    </TouchableOpacity>
-                  </View>
-                }
-
-              </View>
             </View>
-         } 
+          </View>
+        }
       </View>
     )
   }

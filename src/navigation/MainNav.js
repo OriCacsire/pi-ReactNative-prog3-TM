@@ -10,22 +10,22 @@ import Login from '../screens/Login';
 const Stack = createNativeStackNavigator();
 
 
-export default function MainNav() {
+ function MainNav() {
   return (
     <NavigationContainer>
         <Stack.Navigator>
             <Stack.Screen
-                name = 'Register'
+                name = 'register'
                 component={Register}
                 options={{headerShown:false}}
             />
             <Stack.Screen
-                name = 'Login'
+                name = 'login'
                 component={Login}
                 options={{headerShown:false}}
             />
             <Stack.Screen
-                name = 'TabNav'
+                name = 'tabNav'
                 component={TabNav}
                 options={{headerShown:false}}
             />
@@ -38,3 +38,4 @@ export default function MainNav() {
 
     )
 }
+export default MainNav
