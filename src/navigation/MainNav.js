@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // Importamos los components y Screens
 import TabNav from './TabNav';
 import Register from '../screens/Register';
-
+import Login from '../screens/Login';
 
 const Stack = createNativeStackNavigator();
 

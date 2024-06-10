@@ -4,7 +4,7 @@ import { auth, db } from '../firebase/config'
 
 // Importo componentes:
 // import FormRegister from '../components/FormRegister'
-// import CameraPost from '../components/CameraPost'
+import CameraPost from '../components/CameraPost'
 
 class Register extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Register extends Component {
         errorPassword: '',
         errorMail: '',
       },
-      // ¿CREO UN OBJETO LITERAL CON LOS POSIBLES ERRORES ESPECIFICOS?SE PUEDE ?
+      // ¿CREO UN OBJETO LITERAL CON LOS POSIBLES ERRORES ESPECIFICOS ¿SE PUDE?
       mailExite: '',
       // step1: true,
       userId: ''
@@ -88,22 +88,64 @@ class Register extends Component {
   actualizarImgUrl(url) {
     this.setState({
       fotoPerfil: url,
-      // 
-    })
+    }, ()=>{this.saveImg(this.state.fotoPerfil)})
   }
 
-  mostrar
+  mostrarCamara(email, password, name) {
+    if (email === '' || email.includes('@') === false) {
+      this.setState({
+        errors: {
+          errorMail: 'Verifica que el correo electrónico sea válido'
+        },
+      });
+    }
+    else if (password === '' || password.length < 6) {
+      this.setState({
+        errors: {
+          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres',
+        },
+      });
+    }
+    else if (name === '') {
+      this.setState({
+        errors: {
+          errorName: 'Ingresa un nombre válido'
+        },
+      });
+    } else {
+      this.onSubmit(this.state.email, this.state.password, this.state.name)
+      // luego ir cambiando el paso uno a false?
+    }
+
+  }
+  saveImg(url){
+    console.log('usa el saveImg')
+    db.collection('users')
+    .doc(this.state.userId)
+    .update({
+      fotoPerfil:url
+    })
+    .then((resp)=>{
+      this.setState({
+        fotoPerfil:'',
+      }, ()=>this.navigation.navigate('TabNav'))
+    })
+    .catch((err)=> console.log(err))
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        {/* {
-          this.state.fotoPerfil === ''
+        {   this.state.fotoPerfil === ''
             ?
-            // <CameraPost />
+            <CameraPost
+            actualizarImgUrl ={(url)=> this.actualizarImgUrl(url)}
+            saveImg={(url)=> this.saveImg(url)}
+             />
 
-            : */}
+            :
             <View>
-              <Text> Registrate en nuestra página</Text>
+              <Text style={styles.title}> Registrate en nuestra página</Text>
               <View>
                 <TextInput
                   style={styles.input}
@@ -114,14 +156,13 @@ class Register extends Component {
                 />
                 {this.state.errors.errorMail !== ''
                   ?
-                  <Text>{this.state.errors.errorMail}</Text>
-
+                  <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
                   :
                   ''
                 }
                 {this.state.mailExite !== ''
                   ?
-                  <Text>{mailExite}</Text>
+                  <Text style={styles.errorText}>{this.state.mailExite}</Text>
 
                   :
                   ''
@@ -138,7 +179,7 @@ class Register extends Component {
                 {
                   this.state.errors.errorPassword !== ''
                     ?
-                    <Text>{errors.errorPassword}</Text>
+                    <Text>{this.state.errors.errorPassword}</Text> //pregunta: por que a veces funciona cuando pongo errors y cuando si o si me pide que le pase this.stste.errors
                     :
                     ''
                 }
@@ -188,15 +229,22 @@ class Register extends Component {
                       onPress={() => this.onSubmit(this.state.email, this.state.password, this.state.name)}
 
                     >
-                    <Text style ={styles.text.Btn}>Regístrame</Text>
+                      <Text style={styles.textBtn}>Regístrame</Text>
                     </TouchableOpacity>
-
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.mostrarCamara(this.state.email, this.state.password, this.state.name)
+                      }}
+                      style={[styles.btn, { marginTop: 16 }]}
+                    >
+                      <Text style={styles.textBtn}>Tomar foto ahora !! </Text>
+                    </TouchableOpacity>
                   </View>
                 }
 
               </View>
             </View>
-        {/* } */}
+         } 
       </View>
     )
   }
@@ -207,8 +255,49 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#9fc1ad',
+    backgroundColor: '#1a1a1a',
     textAlign: 'center'
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: '#f0f0f0',
+    alignSelf: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#444',
+    marginBottom: 24,
+    padding: 10,
+    borderRadius: 8,
+    color: '#f0f0f0',
+    backgroundColor: '#333',
+  },
+  btn: {
+    backgroundColor: '#444',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  textBtn: {
+    color: '#f0f0f0',
+    fontWeight: 'bold',
+  },
+  textLink: {
+    marginBottom: 24,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f0f0f0',
+    textAlign: 'center',
+  },
+  link: {
+    color: '#4d90fe',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 })
 export default Register
