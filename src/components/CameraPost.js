@@ -62,33 +62,36 @@ class CameraPost extends Component {
                   type={Camera.Constants.Type.back}
                 />
                 <TouchableOpacity
+                  style={styles.button}
                   onPress={() => this.tomarFoto()}
                 >
-                  <Text>Tomar foto</Text>
+                  <Text style={styles.buttonText}>Tomar foto</Text>
                 </TouchableOpacity>
 
               </View>
 
               :
-              <View>
+              <View style={styles.previewContainer}>
                 <Image
                   style={styles.imagen}
                   source={{ uri: this.state.urlTemporal }}
                 />
                 <TouchableOpacity
+                  style={styles.button}
                   onPress={() => this.descartarFoto()}
                 >
-                  <Text>Rechazar foto</Text>
+                  <Text style={styles.buttonText} >Rechazar foto</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  style={styles.button}
                   onPress={() => this.guardarFotoEnFirebase()}
                 >
-                  <Text>Aceptar foto</Text>
+                  <Text style={styles.buttonText}>Aceptar foto</Text>
                 </TouchableOpacity>
 
               </View>
             :
-            <Text>No diste permisos para usar la Camara</Text>
+            <Text style={styles.permissionText}>No diste permisos para usar la Camara</Text>
         }
 
 
@@ -96,17 +99,46 @@ class CameraPost extends Component {
     )
   }
 }
-
+// mejorar el estilo falta acomodar. Mejorar luego
 const styles = StyleSheet.create({
   contenedor: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   camara: {
-    height: 400
+    height: 400,
+    width: '100%',
   },
   imagen: {
     height: 400,
-    width: '100%'
-  }
+    width: '100%',
+  },
+  button: {
+    padding: 15,
+    borderRadius: 8,
+    margin: 10,
+    alignItems: 'center',
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  previewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  permissionText: {
+    color: '#000',
+    fontSize: 16,
+  },
 })
 export default CameraPost
