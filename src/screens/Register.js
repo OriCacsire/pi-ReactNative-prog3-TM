@@ -25,7 +25,7 @@ class Register extends Component {
     }
   }
 
-  onSubmit(email, password, name ) {
+  onSubmit(email, password, name) {
     if (email === '' || email.includes('@') === false) {
       this.setState({
         errors: {
@@ -50,14 +50,14 @@ class Register extends Component {
 
     auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        this.setState({userRegistrado: true})
+        this.setState({ userRegistrado: true })
         db.collection('users').add({
-            owner: this.state.email,
-            createdAt: Date.now(),
-            name: this.state.name,
-            minBio: this.state.minBio,
-            fotoPerfil: this.state.fotoPerfil
-          })
+          owner: this.state.email,
+          createdAt: Date.now(),
+          name: this.state.name,
+          minBio: this.state.minBio,
+          fotoPerfil: this.state.fotoPerfil
+        })
           .then((resp) => {
             console.log('respuesta al crear el documento en la coleccion users', resp)
             this.setState({
@@ -73,7 +73,7 @@ class Register extends Component {
                 errorMail: '',
               },
               mailExite: '',
-            }, () => console.log('log del estado',this.state)
+            }, () => console.log('log del estado', this.state)
             )
             // , () => this.props.navigation.navigate('login') //por ser una screen recibe this.props.navigation.navigate. A una componente le mandamos como props
           })
@@ -148,9 +148,9 @@ class Register extends Component {
             <CameraPost
               actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
             />
-           {
-            // Agregar boton para continuar sin foto de perfil
-           }
+            {
+              // Agregar boton para continuar sin foto de perfil
+            }
           </>
 
           :
@@ -241,14 +241,7 @@ class Register extends Component {
                   >
                     <Text style={styles.textBtn}>Regístrame</Text>
                   </TouchableOpacity>
-                  {/* <TouchableOpacity
-                    onPress={() => {
-                      this.mostrarCamara(this.state.email, this.state.password, this.state.name)
-                    }}
-                    style={[styles.btn, { marginTop: 16 }]}
-                  >
-                    <Text style={styles.textBtn}>Tomar foto ahora !! </Text>
-                  </TouchableOpacity> */}
+
                 </View>
               }
 

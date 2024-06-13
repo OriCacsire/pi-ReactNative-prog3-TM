@@ -5,7 +5,7 @@ export default class Login extends Component {
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        <Text> LOGIN </Text>
       </View>
     )
   }

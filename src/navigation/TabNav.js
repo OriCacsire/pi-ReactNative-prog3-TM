@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome } from '@expo/vector-icons'
 
-import Home from '../screens/CrearPost'
+import Home from '../screens/Home'
 import CrearPost from '../screens/CrearPost'
 import MyProfile from '../screens/MyProfile'
 import Search from '../screens/Search'

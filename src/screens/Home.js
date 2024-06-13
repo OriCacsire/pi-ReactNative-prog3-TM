@@ -12,7 +12,7 @@ export default class Home extends Component {
   }
 
   componentDidMount(){
-    auth.onAuthStateChanged(user)
+    auth.onAuthStateChanged(user) //chequea si hay alguien logueado
     if (user) {
       db.collection("posts").order("createdAt", "desc").onSnapshot(docs)
 
@@ -32,6 +32,7 @@ export default class Home extends Component {
   render() {
     return (
       <View>
+        <Text>Home</Text>
         <FlatList
         data = {this.state.posts}
         keyExtractor = {(item) => item.id.toString()}
