@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import { auth, db } from '../firebase/config'
 
-// Importo componentes:
-// import FormRegister from '../components/FormRegister'
+// Importo componentes: 
 import CameraPost from '../components/CameraPost'
 
 class Register extends Component {
