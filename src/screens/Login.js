@@ -26,7 +26,7 @@ export default class Login extends Component {
     auth.signInWithEmailAndPassword(email, password)
     .then((user) => {
       console.log('Entro en el then')
-        this.props.navigation.navigate('register')
+        this.props.navigation.navigate('tabNav')
     })
     .catch(err => {
       console.log('error en el catch', err)
@@ -36,10 +36,7 @@ export default class Login extends Component {
     })
 
 }
-redirect(){
-  this.props.navigation.navigate('home')
 
-}
   
   
   render() {

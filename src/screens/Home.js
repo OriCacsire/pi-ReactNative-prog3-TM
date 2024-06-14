@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import { auth, db } from "../firebase/config"
 import { FlatList } from 'react-native-web'
+import Post from '../components/Post'
 
 export default class Home extends Component {
   constructor(props){
@@ -12,20 +13,23 @@ export default class Home extends Component {
   }
 
   componentDidMount(){
-    auth.onAuthStateChanged(user) //chequea si hay alguien logueado
-    if (user) {
-      db.collection("posts").order("createdAt", "desc").onSnapshot(docs)
+    auth.onAuthStateChanged((user) => {
+      if (user !== null) {
+        db.collection("posts").orderBy("createdAt", "desc").onSnapshot((docs) => {
 
-      let postsObtenidos = []
-
-      docs.forEach((doc)=>{
-        postsObtenidos.push({
-          id: doc.id,
-          data: doc.data()
+        let postsObtenidos = []
+        docs.forEach((doc)=>{
+          postsObtenidos.push({
+            id: doc.id,
+            data: doc.data()
+          })
         })
+        this.setState({
+          posts: postsObtenidos
+        })       
       })
-      
-    }
+      }
+    })
   }
 
 

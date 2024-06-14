@@ -14,7 +14,7 @@ export default class CrearPost extends Component {
     if (descripcion !== "") {
         db.collection("posts").add({
             descripcion: descripcion,
-            owner:"prueba",
+            owner: auth.currentUser.email,
             createdAt: Date.now(),
             imageUrl: "", //FALTA
             likes: [],

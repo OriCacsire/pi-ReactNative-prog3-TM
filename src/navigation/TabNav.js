@@ -20,7 +20,7 @@ export default class TabNav extends Component {
     return (
       <Tab.Navigator>
         <Tab.Screen
-          name='home'
+          name='Home'
           component={Home}
           options={{
             headerShown: false,
@@ -30,7 +30,7 @@ export default class TabNav extends Component {
 
 
         <Tab.Screen
-          name='crearPost' //tener en cuenta
+          name='Crear post' //tener en cuenta
           component={CrearPost}
           options={{
             headerShown: false,
@@ -39,7 +39,7 @@ export default class TabNav extends Component {
           }} />
 
         <Tab.Screen
-          name= 'search'
+          name= 'Search'
           component={Search}
           options={{
             headerShown:false,
@@ -48,7 +48,7 @@ export default class TabNav extends Component {
         />
 
         <Tab.Screen
-        name='myProfile'
+        name='My profile'
         component={MyProfile}
         options={{
           headerShown:false,

@@ -38,8 +38,8 @@ export default class Post extends Component {
   render() {
     return (
       <View>
-        <Text> {this.props.post.data.owner} </Text>
-        <Text> IMAGEN FALTA </Text> 
+        <Text>{this.props.post.data.owner}</Text>
+        <Text>IMAGEN FALTA</Text> 
         <Text>{this.props.post.data.likes.length} likes</Text>
         {
             this.state.estaMiLike ? 
@@ -56,7 +56,7 @@ export default class Post extends Component {
             </TouchableOpacity>
         }
         
-        <Text>{this.props.post.data.likes.length} comments</Text>
+        <Text>{this.props.post.data.comments.length} comments</Text>
 
       </View>
     )
