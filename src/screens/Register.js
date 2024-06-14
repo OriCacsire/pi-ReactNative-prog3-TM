@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import { auth, db } from '../firebase/config'
 
-// Importo componentes:
-// import FormRegister from '../components/FormRegister'
+// Importo componentes: 
 import CameraPost from '../components/CameraPost'
 
 class Register extends Component {
@@ -50,17 +49,17 @@ class Register extends Component {
     }
 
     auth.createUserWithEmailAndPassword(email, password)
-
       .then((user) => {
-        db.collection('users')
-          .add({
-            owner: this.state.email,
-            createdAt: Date.now(),
-            name: this.state.name,
-            minBio: this.state.minBio,
-            fotoPerfil: this.state.fotoPerfil
-          })
+        this.setState({ userRegistrado: true })
+        db.collection('users').add({
+          owner: this.state.email,
+          createdAt: Date.now(),
+          name: this.state.name,
+          minBio: this.state.minBio,
+          fotoPerfil: this.state.fotoPerfil
+        })
           .then((resp) => {
+            console.log('respuesta al crear el documento en la coleccion users', resp)
             this.setState({
               userId: resp.id,
               email: '',
@@ -74,12 +73,14 @@ class Register extends Component {
                 errorMail: '',
               },
               mailExite: '',
-            }, () => this.props.navigation.navigate('login') //por ser una screen recibe this.props.navigation.navigate. A una componente le mandamos como props
+            }, () => console.log('log del estado', this.state)
             )
+            // , () => this.props.navigation.navigate('login') //por ser una screen recibe this.props.navigation.navigate. A una componente le mandamos como props
           })
           .catch((err) => console.log(err))
       })
       .catch((err) => {
+
         console.log(err);
         this.setState({ mailExite: err.message })
       })
@@ -90,6 +91,7 @@ class Register extends Component {
       fotoPerfil: url,
     }, () => { this.saveImg(this.state.fotoPerfil) })
   }
+
 
   mostrarCamara(email, password, name) {
     if (email === '' || email.includes('@') === false) {
@@ -120,6 +122,7 @@ class Register extends Component {
     }
 
   }
+
   saveImg(url) {
     console.log('usa el saveImg')
     db.collection('users')
@@ -130,7 +133,7 @@ class Register extends Component {
       .then((resp) => {
         this.setState({
           fotoPerfil: '',
-        }, () => this.navigation.navigate('tabNav'))
+        }, () => this.props.navigation.navigate('tabNav'))
       })
       .catch((err) => console.log(err))
   }
@@ -141,10 +144,14 @@ class Register extends Component {
       <View style={styles.container}>
         {this.state.userRegistrado === true
           ?
-          <CameraPost
-            actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
-            saveImg={(url) => this.saveImg(url)}
-          />
+          <>
+            <CameraPost
+              actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
+            />
+            {
+              // Agregar boton para continuar sin foto de perfil
+            }
+          </>
 
           :
           <View>
@@ -234,14 +241,7 @@ class Register extends Component {
                   >
                     <Text style={styles.textBtn}>Regístrame</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.mostrarCamara(this.state.email, this.state.password, this.state.name)
-                    }}
-                    style={[styles.btn, { marginTop: 16 }]}
-                  >
-                    <Text style={styles.textBtn}>Tomar foto ahora !! </Text>
-                  </TouchableOpacity>
+
                 </View>
               }
 

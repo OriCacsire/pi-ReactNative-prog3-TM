@@ -63,8 +63,8 @@ redirect(){
                 >
                     <Text >Loguearme</Text>
         </TouchableOpacity>
-          <TouchableOpacity >
-
+          <TouchableOpacity  onPress={()=> this.props.navigation.navigate("register")}>
+            <Text>register</Text>
           </TouchableOpacity>
       </View>
     )
