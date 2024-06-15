@@ -15,9 +15,13 @@ export default class Home extends Component {
   componentDidMount(){
     auth.onAuthStateChanged((user) => {
       if (user !== null) {
-        db.collection("posts").orderBy("createdAt", "desc").onSnapshot((docs) => {
+        // metodo collecion recibe como parametro el nombre de una colección. Con .onSnapshot se obtiene todos los doc de la coleccion y los coloca en el parametro docs
+        db.collection("posts")
+        .orderBy("createdAt", "desc")
+        .onSnapshot((docs) => {
 
         let postsObtenidos = []
+        // se guardan los datos que pasaremos al estado del componente.Con el forEach vamos a recorres el array de documentos y pusheamos un OBJETO LITERAL con el id de cada documento y la informacion del documento q se obtiene con el metodo data()
         docs.forEach((doc)=>{
           postsObtenidos.push({
             id: doc.id,
@@ -25,6 +29,7 @@ export default class Home extends Component {
           })
         })
         this.setState({
+          // Se guardan los datos en el estado del componente que renderizara los postos dentro de la FlatList
           posts: postsObtenidos
         })       
       })
@@ -43,7 +48,8 @@ export default class Home extends Component {
         renderItem = {
           ({item}) => 
             <View>
-              <Post post = {item}/>
+              {/* Para poder redirigir a mi perfil/perfil usuario/comentarios en post se necesita tener como props navigation */}
+              <Post  navigation={this.props.navigation} post = {item}/>
             </View>
 
         }

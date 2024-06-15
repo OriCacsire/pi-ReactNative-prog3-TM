@@ -8,6 +8,7 @@ export default class MyProfile extends Component {
     super(props);
     this.state = {
       estasLogueado: false,
+      usuarios:[], 
       posteos: [],
     };
   }
@@ -17,7 +18,7 @@ export default class MyProfile extends Component {
     if (currentUser) {
       this.setState({ estasLogueado: true });
       db.collection("posteos")
-        .where("dueño", "==", currentUser.email)
+        .where("owner", "==", currentUser.email)
         .onSnapshot((docs) => {
           let posteosObtenidos = [];
           docs.forEach(doc => {

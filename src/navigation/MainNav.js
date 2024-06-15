@@ -1,23 +1,26 @@
 import { Text, View } from 'react-native'
+// Importamos el contenedor y el tipo de menu
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import TabNav from './TabNav';
-
+// vistas que son parte de la navegacion
 import Register from '../screens/Register';
 import Login from '../screens/Login';
 import Comments from '../screens/Comments';
 import FriendProfile from '../screens/FriendProfile';
 
-// para electiva
+import TabNav from './TabNav';
+
+//** */ vista para electiva
 import EditProfileScreen from '../screens/EditProfileScreen';
 
+// Se guarda en una variable la ejecucion de createNativeStackNavigator
 const Stack = createNativeStackNavigator();
 
 function MainNav() {
-    return (
 
-        <NavigationContainer>
+    return (
+        <NavigationContainer> 
             <Stack.Navigator>
                 <Stack.Screen
                     name='register'

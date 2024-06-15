@@ -1,68 +1,76 @@
 import React, { Component } from 'react'
-import { Text, View,TouchableOpacity ,StyleSheet,TextInput} from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { auth } from '../firebase/config'
 
 export default class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      email : "",
-      password:"",
-      error:"",
-      mailExiste:"",
+    this.state = {
+      email: "",
+      password: "",
+      error: "",
+      mailExiste: "",
     }
-
   }
-  onSubmit(email,password){
-    if (email===null || email===""||!email.includes("@")) {
-      this.setState({error : "el email tiene un formato invalido"})
+
+  // Verificar si el usuario esta logueado
+  componentDidMoun(){
+    // observa los datos obtenidos del usuario
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        console.log('Mail del usuario logueado', auth.currentUser.email);
+      }
+    })
+  }
+  onSubmit(email, password) {
+    if (email === null || email === "" || !email.includes("@")) {
+      this.setState({ error: "el email tiene un formato invalido" })
       console.log(error);
       return false
     }
-    if (password===null || password==="") {
-      this.setState({error : "contrañea incorrecta"})
+    if (password === null || password === "") {
+      this.setState({ error: "contrañea incorrecta" })
       return false
     }
     auth.signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log('Entro en el then')
+      .then((user) => {
+        console.log('Entro en el then')
         this.props.navigation.navigate('tabNav')
-    })
-    .catch(err => {
-      console.log('error en el catch', err)
-        if(err.code === 'auth/internal-error'){
-            this.setState({error: 'Credenciales invalidas'})
+      })
+      .catch(err => {
+        console.log('error en el catch', err)
+        if (err.code === 'auth/internal-error') {
+          this.setState({ error: 'Credenciales invalidas' })
         }
-    })
+      })
 
-}
+  }
 
-  
-  
   render() {
     return (
       <View>
-        <TextInput 
-        keyboardType= "email-addres"
-        placheholder="ingrese su email aqui"
-        onChangeText={(text) => this.setState({ email: text, error: '' })}
-        value={this.state.email}
+        <TextInput
+          keyboardType="email-addres"
+          placheholder="ingrese su email aqui"
+          onChangeText={(text) => this.setState({ email: text, error: '' })}
+          value={this.state.email}
         />
-        <TextInput 
-        keyboardType= "password"
-        placheholder="ingrese su contraseña aqui"
-        secureTextEntry={true}
-        onChangeText={(text) => this.setState({ password: text, error: '' })}
-        value={this.state.password}
+        <TextInput
+          keyboardType="password"
+          placheholder="ingrese su contraseña aqui"
+          secureTextEntry={true}
+          onChangeText={(text) => this.setState({ password: text, error: '' })}
+          value={this.state.password}
         />
         <TouchableOpacity
-                    onPress={()=> this.onSubmit(this.state.email, this.state.password)}
-                >
-                    <Text >Loguearme</Text>
+          onPress={() => this.onSubmit(this.state.email, this.state.password)}
+        >
+          <Text >Loguearme</Text>
         </TouchableOpacity>
-          <TouchableOpacity  onPress={()=> this.props.navigation.navigate("register")}>
-            <Text>register</Text>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("register")}>
+          <Text>register</Text>
+        </TouchableOpacity>
       </View>
     )
-  }}
+  }
+}

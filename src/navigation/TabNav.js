@@ -30,7 +30,7 @@ export default class TabNav extends Component {
 
 
         <Tab.Screen
-          name='Crear post' //tener en cuenta
+          name='CrearPost' //tener en cuenta
           component={CrearPost}
           options={{
             headerShown: false,
@@ -48,7 +48,7 @@ export default class TabNav extends Component {
         />
 
         <Tab.Screen
-        name='My profile'
+        name='MyProfile'
         component={MyProfile}
         options={{
           headerShown:false,

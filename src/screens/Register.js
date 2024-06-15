@@ -48,8 +48,10 @@ class Register extends Component {
       });
     }
 
+    //permite registrar al usuario
     auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
+        console.log('usuario registrado')
         this.setState({ userRegistrado: true })
         db.collection('users').add({
           owner: this.state.email,
@@ -189,7 +191,7 @@ class Register extends Component {
               {
                 this.state.errors.errorPassword !== ''
                   ?
-                  <Text>{this.state.errors.errorPassword}</Text> //pregunta: por que a veces funciona cuando pongo errors y cuando si o si me pide que le pase this.stste.errors
+                  <Text>{this.state.errors.errorPassword}</Text>
                   :
                   ''
               }
