@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput } from 'react-native'
-import { db } from '../firebase/config'
+import { Text, View, TextInput, FlatList, TouchableOpacity } from 'react-native'
+import { db, auth } from '../firebase/config'
+
 
 export default class Search extends Component {
   constructor(props){
     super(props)
     this.state = {
       users:[], 
-      backup:[]
+      backup:[],
+      busqueda: false
     }
   }
 
@@ -19,19 +21,35 @@ export default class Search extends Component {
       });
 
       this.setState({
-        users: usersArray, 
         backup: usersArray
       })
     })
   }
 
   filterUsers(text){
-    let usersFiltrados = this.state.backup.filter((elm) => 
-    elm.data.name.toLowerCase().includes(text.toLowerCase()) //Si es true lo guarda en el array, si es false no
-    )
-    this.setState({users: usersFiltrados})
-    console.log(usersFiltrados);
+    if (text !== "") {
+      let usersFiltrados = this.state.backup.filter((elm) => 
+      elm.data.name.toLowerCase().includes(text.toLowerCase()) //Si es true lo guarda en el array, si es false no
+      )
+      this.setState({users: usersFiltrados, busqueda: true})
+    } 
+    else{
+      this.setState({users: [], busqueda: false})
+    }
   }
+
+  irAPerfil(user) {
+    // hay dos casos: si voy a mi perfil y si voy a un perfil de un amigo 
+    // post es la props que viene de home. De esta se puede acceder a: data - id 
+    {
+        user == auth.currentUser.email ?
+            this.props.navigation.navigate('MyProfile') 
+            :
+            this.props.navigation.navigate('friendProfile', { user: user })
+    }
+
+}
+
   
   render() {
     return (
@@ -41,6 +59,29 @@ export default class Search extends Component {
           name="busqueda"
           onChangeText={(text) => this.filterUsers(text)}
           />
+          {this.state.busqueda === false ?
+            <Text>Ingresa una búsqueda</Text>
+            :
+            this.state.users.length !== 0 ?
+              <FlatList
+              data={this.state.users}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({item}) => 
+                <View>
+                  <TouchableOpacity onPress={() => this.irAPerfil(item.data.owner)}>
+                    <Text>{item.data.owner}</Text>
+                    <Text>{item.data.name}</Text>
+                  </TouchableOpacity>
+                </View>
+              }
+              />
+              :
+              <Text>No se encontraron usuarios</Text>
+        }
+          
+            
+          
+          
       </View>
     )
   }
