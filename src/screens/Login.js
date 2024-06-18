@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
   link: {
     color: '#4d90fe',
   },
+  // falta usar porque aun no estan 
   errorText: {
     color: 'red',
     marginBottom: 10,
