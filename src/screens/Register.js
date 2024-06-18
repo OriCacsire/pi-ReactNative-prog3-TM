@@ -267,7 +267,7 @@ class Register extends Component {
                     disabled={this.state.loading}
                   >
                     {this.state.loading === true ? (
-                        <ActivityIndicator size='large' color="black" />
+                        <ActivityIndicator size='large' color="white" />
                     ) : (
                       <Text style={styles.textBtn}>Regístrame</Text>
 
