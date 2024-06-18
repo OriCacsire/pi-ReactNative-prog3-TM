@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 import { auth, db } from '../firebase/config'
 
 // Importo componentes: 
@@ -15,6 +15,7 @@ class Register extends Component {
       name: '',
       minBio: '',
       fotoPerfil: '',
+      loading: false,
       errors: {
         errorName: '',
         errorPassword: '',
@@ -27,28 +28,33 @@ class Register extends Component {
   }
 
   onSubmit(email, password, name) {
-    if (email === '' || email.includes('@') === false) {
+    if (email === null || email === '' || email.includes('@') === false) {
       this.setState({
         errors: {
-          errorMail: 'Verifica que el correo electrónico sea válido'
+          errorMail: 'Verifica que el correo electrónico sea válido', loading: false
         },
       });
+      return false;
     }
-    else if (password === '' || password.length < 6) {
+    else if (password === null || password === '' || password.length < 6) {
       this.setState({
         errors: {
-          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres',
+          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres', loading: false
         },
       });
+      return false;
     }
-    else if (name === '') {
+    else if (name === null || name === '' || name.length < 6) {
       this.setState({
         errors: {
-          errorName: 'Ingresa un nombre válido'
+          errorName: 'Ingresa un nombre válido', loading:false
         },
       });
+      return false;
     }
 
+    this.setState({ loading: true, errorName: '', errorPassword: '', errorMail: '' });
+    
     //permite registrar al usuario
     auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
@@ -75,17 +81,17 @@ class Register extends Component {
                 errorPassword: '',
                 errorMail: '',
               },
+              loading: false,
               mailExite: '',
             }, () => console.log('log del estado', this.state)
             )
-            // , () => this.props.navigation.navigate('login') //por ser una screen recibe this.props.navigation.navigate. A una componente le mandamos como props
+            this.props.navigation.navigate('login')
           })
           .catch((err) => console.log(err))
       })
       .catch((err) => {
-
         console.log(err);
-        this.setState({ mailExite: err.message })
+        this.setState({ mailExite: err.message, loading: false })
       })
   }
 
@@ -257,11 +263,15 @@ class Register extends Component {
                 <View>
                   <TouchableOpacity
                     style={styles.btn}
-
                     onPress={() => this.onSubmit(this.state.email, this.state.password, this.state.name)}
-
+                    disabled={this.state.loading}
                   >
-                    <Text style={styles.textBtn}>Regístrame</Text>
+                    {this.state.loading === true ? (
+                        <ActivityIndicator size='large' color="black" />
+                    ) : (
+                      <Text style={styles.textBtn}>Regístrame</Text>
+
+                    )}
                   </TouchableOpacity>
 
                 </View>
