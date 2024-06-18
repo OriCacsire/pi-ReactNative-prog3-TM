@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
+import firebase from 'firebase';
 
 export default class MyProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       estasLogueado: false,
-      usuarios:[], 
       posteos: [],
+      users:[]
     };
   }
 
@@ -26,13 +27,30 @@ export default class MyProfile extends Component {
               id: doc.id,
               data: doc.data()
             });
+            console.log(posteosObtenidos);
           });
           this.setState({
             posteos: posteosObtenidos
           });
         });
+        db.collection("users").where("owner","==",currentUser.email).onSnapshot((docs)=>{
+          let arrayUsers=[];
+          docs.forEach(doc=>{
+            arrayUsers.push({
+              id:doc.id,
+              data:doc.data()
+
+            })
+            console.log(arrayUsers);
+          })
+          this.setState({
+            users:arrayUsers
+          })
+        })
     }
+    
   }
+  
 
   cerrarSesion() {
     auth.signOut().then(() => {
@@ -46,6 +64,16 @@ export default class MyProfile extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <FlatList 
+         data={this.state.users}
+         keyExtractor={(item) => item.id.toString()}
+         renderItem={({item} )=> 
+        <View>
+          {console.log(item)}
+          <Text>{item.data.name}</Text>
+          
+        </View>        }
+        />
         <FlatList
           data={this.state.posteos}
           keyExtractor={(item) => item.id.toString()}
