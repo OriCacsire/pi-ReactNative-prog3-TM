@@ -13,6 +13,7 @@ export default class Post extends Component {
         }
     }
 
+
     componentDidMount() {
         // console.log('mira',this.props)
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
@@ -60,7 +61,7 @@ export default class Post extends Component {
                     <Text>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
 
-                <Text>IMAGEN FALTA</Text>
+                <Text>{this.props.post.data.imageUrl}</Text>
                 <Text>{this.props.post.data.likes.length} likes</Text>
                 {
                     this.state.estaMiLike ?
