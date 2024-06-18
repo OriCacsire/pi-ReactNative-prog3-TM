@@ -3,7 +3,8 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import { auth, db } from '../firebase/config'
 
 // Importo componentes: 
-import CameraPost from '../components/CameraPost'
+// import CameraPost from '../components/CameraPost'
+import MyImagePicker from '../components/MyImagePicker'
 
 class Register extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Register extends Component {
       },
       mailExite: '',
       userRegistrado: false,
-      userId: ''
+      userId: '',
     }
   }
 
@@ -88,41 +89,12 @@ class Register extends Component {
       })
   }
 
+  // Actualizo y guardo foto
   actualizarImgUrl(url) {
     this.setState({
       fotoPerfil: url,
-    }, () => { this.saveImg(this.state.fotoPerfil) })
-  }
-
-
-  mostrarCamara(email, password, name) {
-    if (email === '' || email.includes('@') === false) {
-      this.setState({
-        errors: {
-          errorMail: 'Verifica que el correo electrónico sea válido'
-        },
-      });
-    }
-    else if (password === '' || password.length < 6) {
-      this.setState({
-        errors: {
-          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres',
-        },
-      });
-    }
-    else if (name === '') {
-      this.setState({
-        errors: {
-          errorName: 'Ingresa un nombre válido'
-        },
-      });
-    } else {
-      this.onSubmit(this.state.email, this.state.password, this.state.name)
-      this.setState({
-        userRegistrado: false
-      })
-    }
-
+      userRegistrado: true,
+    }, () => { this.saveImg(this.state.fotoPerfil),console.log(this.state.userRegistrado) })
   }
 
   saveImg(url) {
@@ -135,29 +107,77 @@ class Register extends Component {
       .then((resp) => {
         this.setState({
           fotoPerfil: '',
-        }, () => this.props.navigation.navigate('tabNav'))
+        }, () => this.props.navigation.navigate('login'))
       })
       .catch((err) => console.log(err))
   }
 
 
+  // mostrarCamara(email, password, name) {
+  //   if (email === '' || email.includes('@') === false) {
+  //     this.setState({
+  //       errors: {
+  //         errorMail: 'Verifica que el correo electrónico sea válido'
+  //       },
+  //     });
+  //   }
+  //   else if (password === '' || password.length < 6) {
+  //     this.setState({
+  //       errors: {
+  //         errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres',
+  //       },
+  //     });
+  //   }
+  //   else if (name === '') {
+  //     this.setState({
+  //       errors: {
+  //         errorName: 'Ingresa un nombre válido'
+  //       },
+  //     });
+  //   } else {
+  //     this.onSubmit(this.state.email, this.state.password, this.state.name)
+  //     this.setState({
+  //       userRegistrado: false
+  //     })
+  //   }
+
+  // }
+
   render() {
     return (
       <View style={styles.container}>
-        {this.state.userRegistrado === true
+        {/* ERROR: CUANDO ME REGISTRO Y NO LE AGREGO FOTO. PONGO OMITIR VA A LOGIN PERO NO VUELVE AL REGISTER? */}
+        {this.state.userRegistrado === true 
           ?
-          <>
-            <CameraPost
+          <View>
+            <Text style={styles.title}>Cargar foto de perfil</Text>
+
+            <MyImagePicker
               actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
             />
             {
               // Agregar boton para continuar sin foto de perfil
+              this.state.fotoPerfil !== '' ?
+                <TouchableOpacity
+                  onPress={() => this.saveImg()}
+                >
+                  <Text>Añadir foto de perfil</Text>
+                </TouchableOpacity>
+                :
+                null
             }
-          </>
+            <Text style={styles.textLink}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('login')}
+                >
+                  <Text style={styles.link}> Continuar sin Perfil </Text>
+                </TouchableOpacity>
+              </Text>
 
+          </View>
           :
           <View>
-            <Text style={styles.title}> Registrate en nuestra página</Text>
+            <Text style={styles.title}>Registrate en nuestra página</Text>
             <View>
               <TextInput
                 style={styles.input}

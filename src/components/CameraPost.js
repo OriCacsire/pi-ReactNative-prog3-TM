@@ -25,11 +25,12 @@ class CameraPost extends Component {
       .catch((err) => console.log(err))
   }
 
+  // aceptar foto y guardar
   guardarFotoEnFirebase() {
     fetch(this.state.urlTemporal)
       .then((img) => img.blob())
       .then((imgProcesada) => {
-        const ref = storage.ref(`foto/${Date.now()}.jpeg`)
+        const ref = storage.ref(`foto/${Date.now()}.jpg`)
         ref.put(imgProcesada)
         .then((url) => {
           ref.getDownloadURL()
