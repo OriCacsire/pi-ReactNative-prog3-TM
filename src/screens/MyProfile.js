@@ -27,7 +27,6 @@ export default class MyProfile extends Component {
               id: doc.id,
               data: doc.data()
             });
-            console.log(posteosObtenidos);
           });
           this.setState({
             posteos: posteosObtenidos
@@ -61,6 +60,20 @@ export default class MyProfile extends Component {
     });
   }
 
+  eliminarUsuario(){
+    let user = auth.currentUser
+    user.delete()
+    .then(()=>console.log("eliminado del auth")) //Elimina el usuario del auth
+    .catch((error) => console.log(error))
+
+    db.collection("users").doc(this.state.users[0].id).delete()
+    .then(()=> {
+      console.log("eliminado de la colección")
+      this.props.navigation.navigate('register')
+    }) //Elimina el usuario de la colección
+    .catch((error)=> console.log(error))
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -69,7 +82,6 @@ export default class MyProfile extends Component {
          keyExtractor={(item) => item.id.toString()}
          renderItem={({item} )=> 
         <View>
-          {console.log(item)}
           <Text>{item.data.name}</Text>
           
         </View>        }
@@ -85,6 +97,12 @@ export default class MyProfile extends Component {
           style={styles.button}
         >
           <Text style={styles.buttonText}>Cerrar Sesión</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.eliminarUsuario()}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Eliminar usuario</Text>
         </TouchableOpacity>
       </View>
     );

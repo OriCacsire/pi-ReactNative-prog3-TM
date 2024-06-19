@@ -176,7 +176,7 @@ class Register extends Component {
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('login')}
                 >
-                  <Text style={styles.link}> Continuar sin Perfil </Text>
+                  <Text style={styles.link}> Continuar sin foto de perfil </Text>
                 </TouchableOpacity>
               </Text>
 
@@ -217,7 +217,7 @@ class Register extends Component {
               {
                 this.state.errors.errorPassword !== ''
                   ?
-                  <Text>{this.state.errors.errorPassword}</Text>
+                  <Text style={styles.errorText}>{this.state.errors.errorPassword}</Text>
                   :
                   ''
               }
@@ -231,7 +231,7 @@ class Register extends Component {
 
               {this.state.errors.errorName !== ''
                 ?
-                <Text>{this.state.errors.errorName}</Text>
+                <Text style={styles.errorText}>{this.state.errors.errorName}</Text>
                 :
                 ''
               }
