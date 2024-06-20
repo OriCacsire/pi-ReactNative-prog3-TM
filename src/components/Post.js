@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-web'
+import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
 
@@ -60,8 +59,11 @@ export default class Post extends Component {
                 <TouchableOpacity onPress={() => this.irAPerfil()}>
                     <Text>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
-
-                <Text>{this.props.post.data.imageUrl}</Text>
+                <Image
+                style={styles.image}
+                source={{uri: this.props.post.data.imageUrl}}
+                resizeMode='contain'
+                />
                 <Text>{this.props.post.data.likes.length} likes</Text>
                 {
                     this.state.estaMiLike ?
@@ -90,3 +92,9 @@ export default class Post extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    image: {
+        height: 400
+    }
+  })

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, FlatList, StyleSheet } from 'react-native'
 import { auth, db } from "../firebase/config"
-import { FlatList } from 'react-native-web'
 import Post from '../components/Post'
 
 export default class Home extends Component {
@@ -42,19 +41,29 @@ export default class Home extends Component {
     return (
       <View>
         <Text>Home</Text>
-        <FlatList
-        data = {this.state.posts}
-        keyExtractor = {(item) => item.id.toString()}
-        renderItem = {
-          ({item}) => 
-            <View>
-              {/* Para poder redirigir a mi perfil/perfil usuario/comentarios en post se necesita tener como props navigation */}
-              <Post  navigation={this.props.navigation} post = {item}/>
-            </View>
+        <View style={styles.flatlist} >
+          <FlatList
+          data = {this.state.posts}
+          keyExtractor = {(item) => item.id.toString()}
+          renderItem = {
+            ({item}) => 
+              <View>
+                {/* Para poder redirigir a mi perfil/perfil usuario/comentarios en post se necesita tener como props navigation */}
+                <Post  navigation={this.props.navigation} post = {item}/>
+              </View>
 
-        }
-        />
+          }
+          />
+        </View>
+        
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  flatlist: { //Es un fix para FlatList q aveces no permite scrollear
+    width: "100%",
+    flex: 1
+  }
+})

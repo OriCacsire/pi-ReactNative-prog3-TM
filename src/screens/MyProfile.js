@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
-import firebase from 'firebase';
 
 export default class MyProfile extends Component {
   constructor(props) {
@@ -38,9 +37,7 @@ export default class MyProfile extends Component {
             arrayUsers.push({
               id:doc.id,
               data:doc.data()
-
             })
-            console.log(arrayUsers);
           })
           this.setState({
             users:arrayUsers
@@ -61,17 +58,20 @@ export default class MyProfile extends Component {
   }
 
   eliminarUsuario(){
-    let user = auth.currentUser
-    user.delete()
-    .then(()=>console.log("eliminado del auth")) //Elimina el usuario del auth
-    .catch((error) => console.log(error))
+    
+    db.collection("users").where("owner", "==", auth.currentUser.email).get()
+    .then((querySnapshot)=> {
+      querySnapshot.forEach((doc) => doc.ref.delete() //Elimina al usuario de la colección
+      .then(()=>{
+        auth.currentUser.delete() //Elimina al usuario del auth
+        .then(()=> this.props.navigation.navigate('register')) 
+        .catch((error) => console.log("Error al eliminar al usuario del auth", error))
+      })
+      .catch((error) => console.log("Error al eliminar al usuario de la colección", error))
+      )
+    })
+    .catch((error)=> console.log("Error al acceder a la colección", error))
 
-    db.collection("users").doc(this.state.users[0].id).delete()
-    .then(()=> {
-      console.log("eliminado de la colección")
-      this.props.navigation.navigate('register')
-    }) //Elimina el usuario de la colección
-    .catch((error)=> console.log(error))
   }
 
   render() {
