@@ -11,7 +11,7 @@ export default class Comments extends Component {
     super(props)
     this.state = {
       arrComments: [],
-      comentarios: "",
+      text: "",
     }
   }
 
@@ -62,13 +62,14 @@ export default class Comments extends Component {
       <View style={styles.container}>
         {/* Agregar logo pag */}
         {/* <Image source={require('../../assets/splas')} /> */}
-        <Text Style={styles.title}> Comentarios </Text>
+        <Text style={styles.titulo}> Comentarios </Text>
         {
           this.state.arrComments.length === 0 ? (
             <Text style={styles.noComments}>Aún no hay comentarios</Text>
           )
             : (
               <FlatList
+                style={styles.commentsFlatlist}
                 data={this.state.arrComments}
                 keyExtractor={(item) => item.createdAt.toString()}
                 renderItem={({ item }) => (
@@ -80,27 +81,27 @@ export default class Comments extends Component {
             )
 
         }
-        <View style={styles.container}>
-          <TextInput
-            placeholder='Agregar tu comentario'
-            keyboardType='default'
-            onChangeText={(text) => this.setState({ texto: text })}
-            value={this.state.texto}
-            multiline={true}
-            numberOfLines={4}
-            style={styles.inputText}
-          />
 
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this.enviarComentario(this.state.texto)}>
-            <Text style={styles.btnText}>Enviar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.returnButton} onPress={() => this.regresar()}>
-            <Text style={styles.regresoBtn}>Regresar</Text>
-          </TouchableOpacity>
 
-        </View>
+        <TextInput
+          placeholder='Agregar tu comentario'
+          keyboardType='default'
+          onChangeText={(text) => this.setState({ texto: text })}
+          value={this.state.texto}
+          multiline={true}
+          numberOfLines={4}
+          style={styles.inputText}
+        />
+
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => this.enviarComentario(this.state.texto)}>
+          <Text style={styles.btnText}>Enviar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.returnButton} onPress={() => this.regresar()}>
+          <Text style={styles.regresoBtn}>Regresar</Text>
+        </TouchableOpacity>
+
 
 
       </View>
@@ -111,13 +112,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1a1a1a',
   },
-  title: {
+  titulo: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#f0f0f0',
   },
   noComments: {
     textAlign: 'center',
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   containerComment: {
-    backgroundColor: '#fff',
+    backgroundColor: '#333',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
@@ -137,30 +139,32 @@ const styles = StyleSheet.create({
   },
   infoComment: {
     fontSize: 16,
+    color: '#ffffff',
   },
   owner: {
     fontWeight: 'bold',
-    color: '#333',
+    color: '#bb86fc',
   },
   inputText: {
     height: 80,
-    borderColor: '#ccc',
+    borderColor: '#444',
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#1e1e1e',
+    color: '#ffffff',
     marginBottom: 20,
     textAlignVertical: 'top',
   },
   btn: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#444',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     marginBottom: 10,
   },
   btnText: {
-    color: '#fff',
+    color: '#f0f0f0',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   regresoBtn: {
-    color: '#007BFF',
+    color: '#f0f0f0',
     fontSize: 16,
     fontWeight: 'bold',
   },
