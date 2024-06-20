@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet ,Image} from 'react-native';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
+import firebase from 'firebase';
 
 export default class MyProfile extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ export default class MyProfile extends Component {
     this.state = {
       estasLogueado: false,
       posteos: [],
-      users:[]
+      users:[],
+      eliminarPost: false
     };
   }
 
@@ -46,8 +48,12 @@ export default class MyProfile extends Component {
     }
     
   }
-  
-
+  eliminarPost(postId){
+    db.collection("posts")
+    .doc(postId)
+    .delete()
+    
+}
   cerrarSesion() {
     auth.signOut().then(() => {
       this.setState({ estasLogueado: false });
@@ -83,13 +89,34 @@ export default class MyProfile extends Component {
          renderItem={({item} )=> 
         <View>
           <Text>{item.data.name}</Text>
-          
+          <Text>{item.data.minibio}</Text>
+            {item.data.fotoPerfil != '' ? (
+            <Image
+                    source={item.data.fotoPerfil}
+                  />
+                ) : (
+                  ''
+                )}
+            {item.data.minBio ? (
+                  <Text >
+                     {item.data.minibio}
+                  </Text>
+                ) : (
+                  ''
+                )}
+        <Text>{item.data.owner}</Text>
         </View>        }
         />
         <FlatList
           data={this.state.posteos}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Post post={item} />}
+          renderItem={({ item }) => 
+          <View>
+            <Post post={item} />
+            <TouchableOpacity onPress={()=>this.eliminarPost(item.id)}>
+              <Text>Eliminar posteo</Text>
+            </TouchableOpacity>
+          </View>}
         />
         <Text>Mi Perfil</Text>
         <TouchableOpacity
