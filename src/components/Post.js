@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
 
@@ -8,15 +8,20 @@ export default class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            estaMiLike: false
+            estaMiLike: false,
+            comentarios: []
         }
     }
 
 
     componentDidMount() {
-        // console.log('mira',this.props)
+        console.log('mira',this.props)
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
         this.setState({ estaMiLike: estaMiLike })
+
+        let commentsFiltrados = this.props.post.data.comments.reverse().slice(0,4) //Primero invierte el orden de modo que quedan de más nuevo a más viejo, despúes corta el array y agarra solo los primeros 4 datos
+        this.setState({comentarios: commentsFiltrados})
+
     }
 
     // en este metodo actualizamos el documento correspondiente a este posteo
@@ -84,6 +89,19 @@ export default class Post extends Component {
                     <TouchableOpacity onPress={() => this.irAComentar()}>
                         <Text>Comentarios: {this.props.post.data.comments.length} </Text>
                     </TouchableOpacity>
+                    <FlatList
+                    data={this.state.comentarios}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({item}) => 
+                        <View>
+                            <Text>{item.owner}: {item.text}</Text>
+                        </View>
+                    }
+                    />
+                    <TouchableOpacity onPress={() => this.irAComentar()}>
+                        <Text>Ver más</Text>
+                    </TouchableOpacity>                    
+                    
 
                 </View>
 

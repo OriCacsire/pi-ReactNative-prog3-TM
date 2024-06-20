@@ -111,11 +111,11 @@ const styles = StyleSheet.create({
   },
   camara: {
     height: 400,
-    width: '100%',
+    width: 400,
   },
   imagen: {
     height: 400,
-    width: '100%',
+    width: 400,
   },
   button: {
     padding: 15,

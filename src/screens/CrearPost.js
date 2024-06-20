@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import { auth,db } from "../firebase/config"
 import CameraPost from '../components/CameraPost'
 
@@ -35,7 +35,7 @@ export default class CrearPost extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         {this.state.image == ""?
           <CameraPost
           actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
@@ -53,9 +53,14 @@ export default class CrearPost extends Component {
           </TouchableOpacity>
         </>
         }
-            
         
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+})

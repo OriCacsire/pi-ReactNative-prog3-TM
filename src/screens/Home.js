@@ -39,7 +39,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Home</Text>
         <View style={styles.flatlist} >
           <FlatList
@@ -65,5 +65,9 @@ const styles = StyleSheet.create({
   flatlist: { //Es un fix para FlatList q aveces no permite scrollear
     width: "100%",
     flex: 1
+  }, 
+  container: {
+    flex: 1
   }
+
 })
