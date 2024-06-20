@@ -119,36 +119,6 @@ class Register extends Component {
   }
 
 
-  // mostrarCamara(email, password, name) {
-  //   if (email === '' || email.includes('@') === false) {
-  //     this.setState({
-  //       errors: {
-  //         errorMail: 'Verifica que el correo electrónico sea válido'
-  //       },
-  //     });
-  //   }
-  //   else if (password === '' || password.length < 6) {
-  //     this.setState({
-  //       errors: {
-  //         errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres',
-  //       },
-  //     });
-  //   }
-  //   else if (name === '') {
-  //     this.setState({
-  //       errors: {
-  //         errorName: 'Ingresa un nombre válido'
-  //       },
-  //     });
-  //   } else {
-  //     this.onSubmit(this.state.email, this.state.password, this.state.name)
-  //     this.setState({
-  //       userRegistrado: false
-  //     })
-  //   }
-
-  // }
-
   render() {
     return (
       <View style={styles.container}>

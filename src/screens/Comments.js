@@ -108,5 +108,69 @@ export default class Comments extends Component {
   }
 }
 const styles = StyleSheet.create({
-
-})
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  noComments: {
+    textAlign: 'center',
+    color: '#999',
+    fontStyle: 'italic',
+  },
+  containerComment: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 1,
+  },
+  infoComment: {
+    fontSize: 16,
+  },
+  owner: {
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  inputText: {
+    height: 80,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    textAlignVertical: 'top',
+  },
+  btn: {
+    backgroundColor: '#007BFF',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  btnText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  returnButton: {
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  regresoBtn: {
+    color: '#007BFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
