@@ -18,7 +18,7 @@ export default class MyProfile extends Component {
     const currentUser = auth.currentUser;
     if (currentUser) {
       this.setState({ estasLogueado: true });
-      db.collection("posteos")
+      db.collection("posts")
         .where("owner", "==", currentUser.email)
         .onSnapshot((docs) => {
           let posteosObtenidos = [];

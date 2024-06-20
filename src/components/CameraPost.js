@@ -47,6 +47,7 @@ class CameraPost extends Component {
       urlTemporal: ''
     })
   }
+  
   render() {
     return (
       <View style={styles.contenedor}>
@@ -132,14 +133,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
   },
-  previewContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  permissionText: {
-    color: '#000',
-    fontSize: 16,
-  },
+  // previewContainer: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // permissionText: {
+  //   color: '#000',
+  //   fontSize: 16,
+  // },
 })
 export default CameraPost
