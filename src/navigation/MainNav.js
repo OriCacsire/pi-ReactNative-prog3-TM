@@ -45,7 +45,6 @@ function MainNav() {
                 <Stack.Screen
                     name='friendProfile'
                     component={FriendProfile}
-                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name='editProfileScreen'

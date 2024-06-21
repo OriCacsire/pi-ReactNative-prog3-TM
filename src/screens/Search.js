@@ -4,11 +4,11 @@ import { db, auth } from '../firebase/config'
 
 
 export default class Search extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      users:[], 
-      backup:[],
+      users: [],
+      backup: [],
       busqueda: false
     }
   }
@@ -17,7 +17,7 @@ export default class Search extends Component {
     db.collection("users").onSnapshot(docs => {
       usersArray = []
       docs.forEach(doc => {
-        usersArray.push({id: doc.id, data: doc.data()})
+        usersArray.push({ id: doc.id, data: doc.data() })
       });
 
       this.setState({
@@ -26,15 +26,15 @@ export default class Search extends Component {
     })
   }
 
-  filterUsers(text){
+  filterUsers(text) {
     if (text !== "") {
-      let usersFiltrados = this.state.backup.filter((elm) => 
-      elm.data.name.toLowerCase().includes(text.toLowerCase()) //Si es true lo guarda en el array, si es false no
+      let usersFiltrados = this.state.backup.filter((elm) =>
+        elm.data.name.toLowerCase().includes(text.toLowerCase()) //Si es true lo guarda en el array, si es false no
       )
-      this.setState({users: usersFiltrados, busqueda: true})
-    } 
-    else{
-      this.setState({users: [], busqueda: false})
+      this.setState({ users: usersFiltrados, busqueda: true })
+    }
+    else {
+      this.setState({ users: [], busqueda: false })
     }
   }
 
@@ -42,15 +42,15 @@ export default class Search extends Component {
     // hay dos casos: si voy a mi perfil y si voy a un perfil de un amigo 
     // post es la props que viene de home. De esta se puede acceder a: data - id 
     {
-        user == auth.currentUser.email ?
-            this.props.navigation.navigate('MyProfile') 
-            :
-            this.props.navigation.navigate('friendProfile', { user: user })
+      user == auth.currentUser.email ?
+        this.props.navigation.navigate('MyProfile')
+        :
+        this.props.navigation.navigate('friendProfile', { user: user })
     }
 
-}
+  }
 
-  
+
   render() {
     return (
       <View>
@@ -58,15 +58,15 @@ export default class Search extends Component {
           placeholder='Búsqueda'
           name="busqueda"
           onChangeText={(text) => this.filterUsers(text)}
-          />
-          {this.state.busqueda === false ?
-            <Text>Ingresa una búsqueda</Text>
-            :
-            this.state.users.length !== 0 ?
-              <FlatList
+        />
+        {this.state.busqueda === false ?
+          <Text>Ingresa una búsqueda</Text>
+          :
+          this.state.users.length !== 0 ?
+            <FlatList
               data={this.state.users}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) => 
+              renderItem={({ item }) =>
                 <View>
                   <TouchableOpacity onPress={() => this.irAPerfil(item.data.owner)}>
                     <Text>{item.data.owner}</Text>
@@ -74,14 +74,14 @@ export default class Search extends Component {
                   </TouchableOpacity>
                 </View>
               }
-              />
-              :
-              <Text>No se encontraron usuarios</Text>
+            />
+            :
+            <Text>No se encontraron usuarios</Text>
         }
-          
-            
-          
-          
+
+
+
+
       </View>
     )
   }

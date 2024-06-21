@@ -19,7 +19,7 @@ export default class Login extends Component {
   }
 
   // Verificar si el usuario esta logueado
-  componentDidMoun() {
+  componentDidMount() {
     // observa los datos obtenidos del usuario
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -32,7 +32,7 @@ export default class Login extends Component {
     if (email === null || email === "" || !email.includes("@")) {
       this.setState({
         errors: {
-          errorMail: 'Verifica que el correo electrónico sea válido', 
+          errorMail: 'Verifica que el correo electrónico sea válido',
         }, loading: false
       })
       return false;
@@ -46,7 +46,7 @@ export default class Login extends Component {
       })
       return false;
     }
-    this.setState({ loading: true, errorMail: '', errorPassword: ''});
+    this.setState({ loading: true, errorMail: '', errorPassword: '' });
 
     auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
@@ -77,7 +77,7 @@ export default class Login extends Component {
 
         <TextInput
           style={styles.input}
-          keyboardType="email-addres"
+          keyboardType="email-address"
           placeholder="Ingrese su email aqui"
           onChangeText={(text) => this.setState({ email: text, errorMail: '' })}
           value={this.state.email}
@@ -87,7 +87,8 @@ export default class Login extends Component {
           <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
           :
           ''
-        },
+        }
+
         {this.state.mailExiste !== ''
           ?
           <Text style={styles.errorText}>{this.state.mailExiste}</Text>

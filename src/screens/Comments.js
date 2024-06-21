@@ -79,9 +79,7 @@ export default class Comments extends Component {
                 )}
               />
             )
-
         }
-
 
         <TextInput
           placeholder='Agregar tu comentario'
