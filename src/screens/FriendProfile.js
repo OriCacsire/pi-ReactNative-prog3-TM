@@ -45,7 +45,7 @@ export default class FriendProfile extends Component {
           })
           console.log(arrPost)
         })
-       
+
         this.setState({
           posteosDelUser: arrPost
         },
@@ -100,7 +100,7 @@ export default class FriendProfile extends Component {
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) =>
               <View style={styles.post}>
-                <Post navigation={this.props.navigation} data={item.data} id={item.id} />
+                <Post navigation={this.props.navigation} post={item} />          
               </View>
             }
           />
@@ -125,22 +125,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff', // Texto blanco
     marginBottom: 10,
+    textAlign: 'center', // Centra el texto
   },
   imgUser: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginBottom: 10,
+    borderWidth: 2,
+    borderColor: '#fff', // Borde blanco para destacar la imagen
   },
   mail: {
     fontSize: 16,
     color: '#ccc', // Texto gris claro
     marginBottom: 10,
+    textAlign: 'center', // Centra el texto
   },
   minibio: {
     fontSize: 16,
     color: '#eee', // Texto gris claro
     marginBottom: 10,
+    textAlign: 'center', // Centra el texto
   },
   postsUser: {
     flex: 1,
@@ -150,13 +155,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff', // Texto blanco
     marginBottom: 10,
+    textAlign: 'center', // Centra el texto
   },
   cantidadPosteos: {
     fontSize: 16,
     color: '#ccc', // Texto gris claro
     marginBottom: 10,
+    textAlign: 'center', // Centra el texto
   },
   post: {
     marginBottom: 20,
   },
-})
+});
