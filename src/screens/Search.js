@@ -15,7 +15,7 @@ export default class Search extends Component {
 
   componentDidMount() { //Trae todos los usuarios y los guarda en 2 arrays
     db.collection("users").onSnapshot(docs => {
-      usersArray = []
+      let usersArray = []
       docs.forEach(doc => {
         usersArray.push({ id: doc.id, data: doc.data() })
       });
