@@ -47,7 +47,7 @@ export default class Comments extends Component {
         }),
       })
       .then(() => {
-        this.setState({ texto: '' })
+        this.setState({ text: '' })
       })
       .catch((error) => console.log(error))
   }
@@ -84,18 +84,26 @@ export default class Comments extends Component {
         <TextInput
           placeholder='Agregar tu comentario'
           keyboardType='default'
-          onChangeText={(text) => this.setState({ texto: text })}
-          value={this.state.texto}
+          onChangeText={(text) => this.setState({ text: text })}
+          value={this.state.text}
           multiline={true}
           numberOfLines={4}
           style={styles.inputText}
         />
+        {
+          this.state.text === ''
+            ?
+            null
+            :
 
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => this.enviarComentario(this.state.texto)}>
-          <Text style={styles.btnText}>Enviar</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this.enviarComentario(this.state.text)}>
+              <Text style={styles.btnText}>Enviar</Text>
+            </TouchableOpacity>
+        }
+
+
         <TouchableOpacity style={styles.returnButton} onPress={() => this.regresar()}>
           <Text style={styles.regresoBtn}>Regresar</Text>
         </TouchableOpacity>

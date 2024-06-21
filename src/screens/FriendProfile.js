@@ -95,7 +95,12 @@ export default class FriendProfile extends Component {
 
         <View style={styles.postsUser}>
           <Text style={styles.postsTitle}> Cantidad de Postos:{this.state.posteosDelUser.length} </Text>
-          <FlatList
+          {
+            this.state.posteosDelUser.length === 0
+            ?
+            <Text>El usuario no tiene posteos</Text>
+            :
+            <FlatList
             data={this.state.posteosDelUser}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) =>
@@ -104,6 +109,8 @@ export default class FriendProfile extends Component {
               </View>
             }
           />
+          }
+          
         </View>
       </View>
 
