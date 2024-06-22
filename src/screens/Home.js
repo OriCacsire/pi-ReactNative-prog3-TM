@@ -40,7 +40,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Home</Text>
+        <Text style={styles.postsTitle} >Home</Text>
         <View style={styles.flatlist} >
           <FlatList
           data = {this.state.posts}
@@ -67,7 +67,18 @@ const styles = StyleSheet.create({
     flex: 1
   }, 
   container: {
-    flex: 1
-  }
+    flex: 1,
+    backgroundColor: '#1a1a1a', // Fondo oscuro
+  },
+  postsTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff', // Texto blanco,
+    paddingVertical: 5,
+    marginVertical: 15,
+    textAlign: 'center', // Centra el texto
+  },
+ 
+  
 
 })

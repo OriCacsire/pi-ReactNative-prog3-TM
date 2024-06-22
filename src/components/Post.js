@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 import { db, auth } from "../firebase/config"
 import firebase from "firebase"
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 export default class Post extends Component {
@@ -60,48 +62,50 @@ export default class Post extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <TouchableOpacity onPress={() => this.irAPerfil()}>
-                    <Text>{this.props.post.data.owner}</Text>
+                    <Text style={styles.ownerText}>{this.props.post.data.owner}</Text>
                 </TouchableOpacity>
                 <Image
-                style={styles.image}
-                source={{uri: this.props.post.data.imageUrl}}
-                resizeMode='contain'
+                    style={styles.image}
+                    source={{uri: this.props.post.data.imageUrl}}
+                    resizeMode='cover'
                 />
-                <Text>{this.props.post.data.likes.length} likes</Text>
-                {
-                    this.state.estaMiLike ?
-                        <TouchableOpacity
-                            onPress={() => this.unlike()}
-                        >
-                            <Text>Unlike</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity
-                            onPress={() => this.like()}
-                        >
-                            <Text>Like</Text>
-                        </TouchableOpacity>
-                }
+                    {
+                        this.state.estaMiLike ?
+                            <TouchableOpacity
+                                onPress={() => this.unlike()}
+                            >
+                                <Text style={styles.textLikes}><Icon name="thumbs-down" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
 
-                <View>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity
+                                onPress={() => this.like()}
+                            >
+                                <Text style={styles.textLikes}><Icon name="thumbs-up" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
+
+                            </TouchableOpacity>
+                    }
+
+                <View style={styles.containerComments}>
                     <TouchableOpacity onPress={() => this.irAComentar()}>
-                        <Text>Comentarios: {this.props.post.data.comments.length} </Text>
+                        {
+                            this.props.post.data.comments.length === 0 ?
+                            <Text style={styles.tituloComments}>Sé el primero en comentar</Text>
+                            :
+                            <Text style={styles.tituloComments}>Ver los {this.props.post.data.comments.length} comentarios </Text>
+                        }
                     </TouchableOpacity>
                     <FlatList
                     data={this.state.comentarios}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) => 
                         <View>
-                            <Text>{item.owner}: {item.text}</Text>
+                            <Text style={styles.textComments}>{item.owner}: {item.text}</Text>
                         </View>
                     }
                     />
-                    <TouchableOpacity onPress={() => this.irAComentar()}>
-                        <Text>Ver más</Text>
-                    </TouchableOpacity>                    
-                    
 
                 </View>
 
@@ -112,7 +116,42 @@ export default class Post extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginBottom: 10,
+    },
     image: {
-        height: 400
-    }
+        height: 260,
+        marginBottom: 5,
+        marginTop: 10
+      },
+    textLikes: {
+        color: '#fff', // Texto blanco,
+        fontSize: 12,
+        fontWeight: "bold",
+        paddingBottom: 5,
+        marginLeft: 2
+    },
+    ownerText: {
+        color: '#ecf0f1',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      containerLikes: {
+        marginTop: 5
+      },
+      containerComments: {
+        marginTop: 12,
+        marginBottom: 11
+      },
+      tituloComments: {
+        fontSize: 14,
+        color: '#9c9c9c', // Texto blanco,
+        marginBottom: 10
+      },
+      textComments: {
+        color: '#fff', // Texto blanco,
+        fontSize: 12,
+        
+    },
   })
