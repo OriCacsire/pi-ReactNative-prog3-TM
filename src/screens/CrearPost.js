@@ -28,7 +28,15 @@ export default class CrearPost extends Component {
             likes: [],
             comments: []
         })
-        .then((resp)=> console.log(resp))
+        .then((resp)=> {
+          console.log('Posteo Hecho');
+          this.props.navigation.navigate('Home')
+          this.setState({
+            descripcion:"",
+            image:""
+          })
+        }
+        )
         .catch((err) => console.log(err))
     }
   }
@@ -42,6 +50,8 @@ export default class CrearPost extends Component {
           />    
         :
         <>
+          <Text style={styles.title}>New Post</Text>
+
           <TextInput
           onChangeText={(text)=> this.setState({descripcion: text})}
           placeholder='Descripción del posteo'

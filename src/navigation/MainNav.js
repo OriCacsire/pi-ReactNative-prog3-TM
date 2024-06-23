@@ -8,9 +8,7 @@ import Register from '../screens/Register';
 import Login from '../screens/Login';
 import Comments from '../screens/Comments';
 import FriendProfile from '../screens/FriendProfile';
-
 import TabNav from './TabNav';
-
 //** */ vista para electiva
 import EditProfileScreen from '../screens/EditProfileScreen';
 

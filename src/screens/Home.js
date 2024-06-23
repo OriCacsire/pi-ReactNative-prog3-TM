@@ -40,7 +40,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.postsTitle} >Home</Text>
+        <Text style={styles.postsTitle}>Home</Text>
         <View style={styles.flatlist} >
           <FlatList
           data = {this.state.posts}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, TextInput, FlatList, TouchableOpacity, Picker} from 'react-native'
 import { db, auth } from '../firebase/config'
 
 
@@ -9,7 +9,10 @@ export default class Search extends Component {
     this.state = {
       users: [],
       backup: [],
-      busqueda: false
+      busqueda: false,
+      // estado para el filtrar la busqueda
+      filterSearch:'name'
+  
     }
   }
 
@@ -50,10 +53,12 @@ export default class Search extends Component {
 
   }
 
-
   render() {
     return (
-      <View>
+      <View >
+        <Picker>
+          {/* utilizar metodos de la pag para el buscador avanzado  */}
+        </Picker>
         <TextInput
           placeholder='Búsqueda'
           name="busqueda"

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList, StyleSheet, Image, ScrollView } from 'react-native';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
 
@@ -83,63 +83,49 @@ export default class MyProfile extends Component {
   }
 
   render() {
+    const user = this.state.users.length > 0 ? this.state.users[0].data : null;
     return (
-      <View style={styles.container}>
-        <View style={styles.profileInfo}>
-          <View style={styles.section}>
-            <Text style={styles.title}>Tus Posteos:{this.state.posteos.length}</Text>
-            {
-              this.state.posteos.length > 0
-                ?
-                <View style={styles.listPost}>
-                  <FlatList
-                    data={this.state.posteos}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) =>
-                      <View style={styles.postContainer}>
-                        <Post post={item} />
-                        <TouchableOpacity style={styles.deleteButton} onPress={() => this.eliminarPost(item.id)}>
-                          <Text style={styles.buttonText}> Eliminar posteo</Text>
-                        </TouchableOpacity>
-                      </View>
-                    }
-                  />
-                </View>
-                :
-                <Text style={styles.emptyText}> Este usuario no tiene posteos</Text>
-            }
-          </View>
+      <ScrollView style={styles.container}>
+        {
+          user ?
+            <View style={styles.userInfo}>
+              <Text style={styles.title}>Mi Perfil</Text>
+              <Text style={styles.textProfile}>{user.name}</Text>
+              <Image
+                source={{ uri: user.fotoPerfil }}
+                style={styles.imgPerfil}
+                resizeMode='contain'
+              />
+              <Text style={styles.mail}>{user.owner}</Text>
+              <Text style={styles.minBio}>{user.minBio}</Text>
+            </View>
+            :
+            <Text>Cargando ...</Text>
+        }
 
-          <View style={styles.section}>
-            <Text style={styles.title}>Mis datos</Text>
-            <FlatList
-              style={styles.userInfo}
-              data={this.state.users}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) =>
-                <View style={styles.infoPart}>
-                  <Text style={styles.textProfile}>{item.data.name}</Text>
-                  {item.data.fotoPerfil != '' ? (
-                    <Image
-                      source={item.data.fotoPerfil}
-                      style={styles.img}
-                      resizeMode='contain'
-                    />
-                  ) : (
-                    ''
-                  )}
-                  <Text style={styles.mail}>{item.data.owner}</Text>
-                  {item.data.minbio ? (
-                    <Text style={styles.minBio}>
-                      {item.data.minibio}
-                    </Text>
-                  ) : (
-                    ''
-                  )}
-                </View>
-              }
-            />
-          </View>
+        <View style={styles.postUser}>
+          <Text style={styles.title}>Tus Posteos:{this.state.posteos.length}</Text>
+          {
+            this.state.posteos.length > 0
+              ?
+              <View style={styles.listPost}>
+                <FlatList
+                  data={this.state.posteos}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) =>
+                    <View style={styles.postContainer}>
+                      <Post post={item} />
+                      <TouchableOpacity style={styles.deleteButton} onPress={() => this.eliminarPost(item.id)}>
+                        <Text style={styles.buttonText}> Eliminar posteo</Text>
+                      </TouchableOpacity>
+                    </View>
+                  }
+                />
+              </View>
+              :
+              <Text style={styles.emptyText}> El usuario no tiene posteos</Text>
+          }
+
         </View>
 
         <View style={styles.contenedorBtn}>
@@ -158,95 +144,91 @@ export default class MyProfile extends Component {
           </TouchableOpacity>
         </View>
 
-      </View>
+      </ScrollView >
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#333',
-    padding: 16,
+    backgroundColor: '#1a1a1a', // Fondo oscuro
+    padding: 20,
+  },
+  userInfo: {
     alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-  },
-  profileInfo: {
-    flex: 1,
-    width: '100%',
-    marginTop: 20,
-  },
-  section: {
     marginBottom: 20,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#fff', // Texto blanco
     marginBottom: 10,
-  },
-  userInfo: {
-    width: '100%',
-  },
-  infoPart: {
-    alignItems: 'center',
-    marginBottom: 20,
+    textAlign: 'center',
   },
   textProfile: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
     color: '#fff',
     marginBottom: 10,
+    textAlign: 'center',
   },
-  img: {
+  imgPerfil: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginBottom: 10,
+    borderWidth: 2,
+    borderColor: '#fff', // Borde blanco para destacar la imagen
   },
   mail: {
-    color: '#ccc',
-    marginBottom: 5,
-  },
-  minibio: {
-    color: '#ccc',
-    marginBottom: 10,
-  },
-  contenedorBtn: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginTop: 20,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-    borderRadius: 5,
-    backgroundColor: '#0056b3',
-    width: '48%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#fff',
     fontSize: 16,
+    color: '#ccc', // Texto gris claro
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  minBio: {
+    fontSize: 16,
+    color: '#eee', // Texto gris claro
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  postUser: {
+    flex: 1,
+  },
+  listPost: {
+    marginBottom: 20,
   },
   postContainer: {
     marginBottom: 20,
+    backgroundColor: '#2a2a2a', // Fondo oscuro para los contenedores de los posts
+    padding: 10,
+    borderRadius: 10,
   },
   deleteButton: {
-    backgroundColor: '#c62828',
-    padding: 8,
+    backgroundColor: '#ff4444', // Botón de eliminar rojo
+    padding: 10,
     borderRadius: 5,
-    marginTop: 8,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff', // Texto blanco
+    fontWeight: 'bold',
   },
   emptyText: {
-    color: '#ccc',
+    color: '#ccc', // Texto gris claro
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 20,
+  },
+  contenedorBtn: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#007bff', // Botón azul
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    alignItems: 'center',
   },
 });
+

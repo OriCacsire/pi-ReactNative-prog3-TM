@@ -27,6 +27,15 @@ class Register extends Component {
     }
   }
 
+  componentDidMount(){
+    auth.onAuthStateChanged((user)=>{
+      console.log(user);
+      if(user){
+        this.props.navigation.navigate('login')
+      }
+    });
+  }
+  
   onSubmit(email, password, name) {
     if (email === null || email === '' || email.includes('@') === false) {
       this.setState({

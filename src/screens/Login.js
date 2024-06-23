@@ -20,9 +20,10 @@ export default class Login extends Component {
 
   // Verificar si el usuario esta logueado
   componentDidMount() {
-    // observa los datos obtenidos del usuario
+    // Permite ingresar directo al usuario si ya fue registrado y logueado
     auth.onAuthStateChanged((user) => {
       if (user) {
+        this.props.navigation.navigate('tabNav')
         console.log('Mail del usuario logueado', auth.currentUser.email);
       }
     })
@@ -50,7 +51,7 @@ export default class Login extends Component {
 
     auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
-        console.log('Entro en el then')
+        console.log('Logueado', user)
         this.props.navigation.navigate('tabNav')
         this.setState({ loading: false });
       })
