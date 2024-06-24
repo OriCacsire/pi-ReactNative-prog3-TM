@@ -80,20 +80,20 @@ class CameraPost extends Component {
                 />
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => this.descartarFoto()}
+                  onPress={() => this.guardarFotoEnFirebase()}
                 >
-                  <Text style={styles.buttonText} >Rechazar foto</Text>
+                  <Text style={styles.buttonText}> Aceptar foto </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => this.guardarFotoEnFirebase()}
+                  onPress={() => this.descartarFoto()}
                 >
-                  <Text style={styles.buttonText}>Aceptar foto</Text>
+                  <Text style={styles.buttonText}> Rechazar foto </Text>
                 </TouchableOpacity>
 
               </View>
             :
-            <Text style={styles.permissionText}>No diste permisos para usar la Camara</Text>
+            <Text style={styles.permissionText}> No diste permisos para usar la Camara</Text>
         }
 
 
@@ -133,14 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
   },
-  // previewContainer: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // permissionText: {
-  //   color: '#000',
-  //   fontSize: 16,
-  // },
+ 
 })
 export default CameraPost

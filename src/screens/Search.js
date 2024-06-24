@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, FlatList, TouchableOpacity, Picker} from 'react-native'
+import { Text, View, TextInput, FlatList, TouchableOpacity, Picker, StyleSheet} from 'react-native'
 import { db, auth } from '../firebase/config'
 
 
@@ -63,9 +63,10 @@ export default class Search extends Component {
 
   render() {
     return (
-      <View >
+      <View style={styles.container}>
         {/* componente de react native que me permite seleccionar un valor de la lista (picker.item). Le pasamos el valor actual del buscador, para que cada vez que se cambie la opción de busqueda se actualice. Cpn el onValueChange permite cambiar el criterio de busca. Este recibe un arguemento, asi actualizamos el estado para actualizar el criterio de busqueda en el estado con el nuevo valor ingresado, actulizamos el campo de busqueda a un string vacio, se limpia la lista de usuarios filtrados y se indica que no hay busqueda activa.  */}
        <Picker 
+       style = {styles.picker}
        selectedValue = {this.state.filterSearch}
        onValueChange = {(itemValue)=>this.setState({filterSearch:itemValue, searchText:'', user:[], busqueda: false})}
       >
@@ -74,21 +75,22 @@ export default class Search extends Component {
 
        </Picker>
         <TextInput
+          style = {styles.textInput}
           placeholder={`Buscar por ${this.state.filterSearch === 'name' ? 'nombre':'email'}`}
           name="busqueda"
           onChangeText={(text) => this.filterUsers(text)}
         />
         {this.state.busqueda === false ?
-          <Text>Ingresa una búsqueda</Text>
+          <Text style={styles.text}>Ingresa una búsqueda</Text>
           :
           this.state.users.length !== 0 ?
             <FlatList
               data={this.state.users}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) =>
-                <View>
+                <View style = {styles.btnSearch}>
                   <TouchableOpacity onPress={() => this.irAPerfil(item.data.owner)}>
-                    <Text>{this.state.filterSearch === 'name' ? item.data.name : item.data.owner}</Text>
+                    <Text style = {styles.textBtn}>{this.state.filterSearch === 'name' ? item.data.name : item.data.owner}</Text>
                   </TouchableOpacity>
                 </View>
               }
@@ -97,10 +99,49 @@ export default class Search extends Component {
             <Text>No se encontraron usuarios</Text>
         }
 
-
-
-
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#1a1a1a',
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    marginBottom: 10,
+    color: '#f0f0f0',
+    backgroundColor: '#333',
+    borderRadius: 8,
+    paddingLeft: 10,
+  },
+  textInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#444',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    color: '#f0f0f0',
+    backgroundColor: '#333',
+  },
+  text: {
+    color: '#f0f0f0',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  btnSearch: {
+    backgroundColor: '#444',
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 8,
+  },
+  textBtn: {
+    color: '#f0f0f0',
+    fontSize: 16,
+  },
+});

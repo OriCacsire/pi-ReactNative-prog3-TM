@@ -11,6 +11,7 @@ import FriendProfile from '../screens/FriendProfile';
 import TabNav from './TabNav';
 //** */ vista para electiva
 import EditProfileScreen from '../screens/EditProfileScreen';
+import CargarFotoPerfil from '../screens/CargarFotoPerfil';
 
 // Se guarda en una variable la ejecucion de createNativeStackNavigator
 const Stack = createNativeStackNavigator();
@@ -45,8 +46,8 @@ function MainNav() {
                     component={FriendProfile}
                 />
                 <Stack.Screen
-                    name='editProfileScreen'
-                    component={EditProfileScreen}
+                    name='cargarFotoPerfil'
+                    component={CargarFotoPerfil}
                 />
                 {/* crear otros para: - cambiar contraseña ??*/}
 

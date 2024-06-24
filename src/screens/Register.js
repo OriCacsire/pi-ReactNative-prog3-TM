@@ -4,7 +4,6 @@ import { auth, db } from '../firebase/config'
 
 // Importo componentes: 
 // import CameraPost from '../components/CameraPost'
-import MyImagePicker from '../components/MyImagePicker'
 
 class Register extends Component {
   constructor(props) {
@@ -26,10 +25,10 @@ class Register extends Component {
   }
 
   componentDidMount(){
-    //Verificación usuario logueado
+    //es a login para que luego de subir la foto vaya a login y no a home
     auth.onAuthStateChanged((user)=>{
       if(user){
-        this.props.navigation.navigate('tabNav')
+        this.props.navigation.navigate('login')
       }
     });
   }
@@ -84,6 +83,7 @@ class Register extends Component {
               mailExiste: '',
             }, () => console.log('log del estado', this.state)
             )
+            this.props.navigation.navigate('cargarFotoPerfil',{userId:resp.id})
           })
           .catch((err) => console.log(err))
       })
@@ -93,63 +93,11 @@ class Register extends Component {
       })
   }
 
-  // Actualizo y guardo foto
-  actualizarImgUrl(url) {
-    this.setState({
-      fotoPerfil: url,
-      userRegistrado: true,
-    }, () => { this.saveImg(this.state.fotoPerfil),console.log(this.state.userRegistrado) })
-  }
-
-  saveImg(url) {
-    console.log('usa el saveImg')
-    db.collection('users')
-      .doc(this.state.userId)
-      .update({
-        fotoPerfil: url
-      })
-      .then((resp) => {
-        this.setState({
-          fotoPerfil: '',
-        }, () => this.props.navigation.navigate('login'))
-      })
-      .catch((err) => console.log(err))
-  }
-
 
   render() {
     return (
       <View style={styles.container}>
-        {/* ERROR: CUANDO ME REGISTRO Y NO LE AGREGO FOTO. PONGO OMITIR VA A LOGIN PERO NO VUELVE AL REGISTER? */}
-        {this.state.userRegistrado === true 
-          ?
-          <View>
-            <Text style={styles.title}>Cargar foto de perfil</Text>
-
-            <MyImagePicker
-              actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
-            />
-            {
-              // Agregar boton para continuar sin foto de perfil
-              this.state.fotoPerfil !== '' ?
-                <TouchableOpacity
-                  onPress={() => this.saveImg()}
-                >
-                  <Text>Añadir foto de perfil</Text>
-                </TouchableOpacity>
-                :
-                null
-            }
-            <Text style={styles.textLink}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('login')}
-                >
-                  <Text style={styles.link}> Continuar sin foto de perfil </Text>
-                </TouchableOpacity>
-              </Text>
-
-          </View>
-          :
+      
           <View>
             <Text style={styles.title}>Registrate en nuestra página</Text>
             <View>
@@ -246,7 +194,6 @@ class Register extends Component {
 
             </View>
           </View>
-        }
       </View>
     )
   }
