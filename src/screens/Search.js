@@ -11,8 +11,8 @@ export default class Search extends Component {
       backup: [],
       busqueda: false,
       // estado para el filtrar la busqueda
-      filterSearch:'name'
-  
+      filterSearch:'name', //para elegir como buscar
+      searchText:'' //este es el texto que aparece al comienzo
     }
   }
 
@@ -56,11 +56,17 @@ export default class Search extends Component {
   render() {
     return (
       <View >
-        <Picker>
-          {/* utilizar metodos de la pag para el buscador avanzado  */}
-        </Picker>
+        {/* componente de react native que me permite seleccionar un valor de la lista (picker.item). Le pasamos el valor actual del buscador, para que cada vez que se cambie la opción de busqueda se actualice. Cpn el onValueChange permite cambiar el criterio de busca. Este recibe un arguemento, asi actualizamos el estado para actualizar el criterio de busqueda en el estado con el nuevo valor ingresado, actulizamos el campo de busqueda a un string vacio, se limpia la lista de usuarios filtrados y se indica que no hay busqueda activa.  */}
+       <Picker 
+       selectedValue = {this.state.filterSearch}
+       onValueChange = {(itemValue)=>this.setState({filterSearch:itemValue, searchText:'', user:[], busqueda: false})}
+      >
+        <Picker.Item label='Nombre' value = 'name'/>
+        <Picker.Item label='Email' value = 'owner'/>
+
+       </Picker>
         <TextInput
-          placeholder='Búsqueda'
+          placeholder={`Buscar por ${this.state.filterSearch === 'name' ? 'nombre':'email'}`}
           name="busqueda"
           onChangeText={(text) => this.filterUsers(text)}
         />
@@ -74,8 +80,7 @@ export default class Search extends Component {
               renderItem={({ item }) =>
                 <View>
                   <TouchableOpacity onPress={() => this.irAPerfil(item.data.owner)}>
-                    <Text>{item.data.owner}</Text>
-                    <Text>{item.data.name}</Text>
+                    <Text>{this.state.filterSearch === 'name' ? item.data.name : item.data.owner}</Text>
                   </TouchableOpacity>
                 </View>
               }

@@ -79,6 +79,4 @@ const styles = StyleSheet.create({
     textAlign: 'center', // Centra el texto
   },
  
-  
-
 })

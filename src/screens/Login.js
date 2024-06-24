@@ -9,10 +9,9 @@ export default class Login extends Component {
       email: "",
       password: "",
       loading: false,
-      errors: {
-        errorMail: '',
-        errorPassword: '',
-      },
+      error:'',
+      errorMail: '',
+      errorPassword: '',
       mailExiste: "",
 
     }
@@ -32,18 +31,13 @@ export default class Login extends Component {
   onSubmit(email, password) {
     if (email === null || email === "" || !email.includes("@")) {
       this.setState({
-        errors: {
-          errorMail: 'Verifica que el correo electrónico sea válido',
-        }, loading: false
+          errorMail: 'Verifica que el correo electrónico sea válido', loading: false
       })
       return false;
     }
     if (password === null || password === "" || password.length < 6) {
       this.setState({
-        errors: {
-          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres'
-        },
-        loading: false
+          errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres', loading: false
       })
       return false;
     }
@@ -58,11 +52,7 @@ export default class Login extends Component {
       .catch(err => {
         console.log('error en el catch', err);
         this.setState({
-          errors: {
-            errorMail: '',
-            errorPassword: '',
-          },
-          loading: false,
+            errorMail: '', errorPassword: '', loading: false,
         });
         if (err.code === 'auth/internal-error') {
           this.setState({ error: 'Credenciales invalidas' })
@@ -80,12 +70,12 @@ export default class Login extends Component {
           style={styles.input}
           keyboardType="email-address"
           placeholder="Ingrese su email aqui"
-          onChangeText={(text) => this.setState({ email: text, errorMail: '' })}
+          onChangeText={(text) => this.setState({ email: text, errorMail: '', mailExiste: "" })}
           value={this.state.email}
         />
-        {this.state.errors.errorMail !== ''
+        {this.state.errorMail !== ''
           ?
-          <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
+          <Text style={styles.errorText}>{this.state.errorMail}</Text>
           :
           ''
         }
@@ -96,18 +86,28 @@ export default class Login extends Component {
           :
           ''
         }
+        
+        {
+          this.state.error !==''
+          ?
+          <Text style={styles.errorText}>{this.state.error}</Text>
+          :
+          ''
+        }
+
         <TextInput
           style={styles.input}
           keyboardType="password"
           placeholder="Ingrese su contraseña aqui"
           secureTextEntry={true}
-          onChangeText={(text) => this.setState({ password: text, errorPassword: '' })}
+          onChangeText={(text) => this.setState({ password: text, errorPassword: '', })}
           value={this.state.password}
         />
+
         {
-          this.state.errors.errorPassword !== ''
+          this.state.errorPassword !== ''
             ?
-            <Text style={styles.errorText}>{this.state.errors.errorPassword}</Text>
+            <Text style={styles.errorText}>{this.state.errorPassword}</Text>
             :
             ''
         }
