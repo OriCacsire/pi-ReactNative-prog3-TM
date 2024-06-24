@@ -35,7 +35,6 @@ export default class Comments extends Component {
             doc.data().comments.sort((a, b) => b.createdAt - a.createdAt) // Si 'comments' existe, ordena los comentarios por 'createdAt' en orden descendente
             : [] // Si 'comments' no existe, establece 'arrComments' como un array vacío
         },
-          // () => console.log(this.state)
         );
       });
 
@@ -137,6 +136,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#999',
     fontStyle: 'italic',
+    marginBottom: 20
   },
   containerComment: {
     backgroundColor: '#333',

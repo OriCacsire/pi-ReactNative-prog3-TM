@@ -73,23 +73,26 @@ class CameraPost extends Component {
               </View>
 
               :
-              <View style={styles.previewContainer}>
+              <View style={styles.contenedor}>
                 <Image
                   style={styles.imagen}
                   source={{ uri: this.state.urlTemporal }}
                 />
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.guardarFotoEnFirebase()}
-                >
-                  <Text style={styles.buttonText}> Aceptar foto </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.descartarFoto()}
-                >
-                  <Text style={styles.buttonText}> Rechazar foto </Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.guardarFotoEnFirebase()}
+                  >
+                    <Text style={styles.buttonText}> Aceptar foto </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.descartarFoto()}
+                  >
+                    <Text style={styles.buttonText}> Rechazar foto </Text>
+                  </TouchableOpacity>
+                </View>
+                
 
               </View>
             :
@@ -105,7 +108,7 @@ class CameraPost extends Component {
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#1a1a1a',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -114,8 +117,9 @@ const styles = StyleSheet.create({
     width: 400,
   },
   imagen: {
-    height: 400,
+    height: 360,
     width: 400,
+    marginBottom: 10
   },
   button: {
     padding: 15,
@@ -130,9 +134,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+    justifyContent: 'space-between',
+    width: '75%',
   },
+  permissionText: {
+    color: '#fff',
+  }
  
 })
 export default CameraPost

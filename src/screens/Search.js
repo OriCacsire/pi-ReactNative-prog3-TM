@@ -96,7 +96,7 @@ export default class Search extends Component {
               }
             />
             :
-            <Text>No se encontraron usuarios</Text>
+            <Text style={styles.text}>No se encontraron usuarios</Text>
         }
 
       </View>

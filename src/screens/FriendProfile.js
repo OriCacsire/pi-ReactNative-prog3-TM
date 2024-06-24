@@ -22,7 +22,7 @@ export default class FriendProfile extends Component {
         this.props.navigation.navigate('login')
       }
     });
-    
+
     console.log('props', this.state.usuarios) //tenemos navigation y route
 
     db.collection('users')
@@ -90,7 +90,7 @@ export default class FriendProfile extends Component {
           {
             this.state.posteosDelUser.length === 0
               ?
-              <Text>El usuario no tiene posteos</Text>
+              <Text style={styles.whiteText}>El usuario no tiene posteos</Text>
               :
               <FlatList
                 data={this.state.posteosDelUser}
@@ -163,4 +163,7 @@ const styles = StyleSheet.create({
   post: {
     marginBottom: 20,
   },
+  whiteText: {
+    color: '#fff', // Texto blanco
+  }
 });

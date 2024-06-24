@@ -96,13 +96,22 @@ export default class MyProfile extends Component {
         {
           user ?
             <View style={styles.userInfo}>
-              <Text style={styles.title}>Mi Perfil</Text>
-              <Text style={styles.textProfile}>{user.name}</Text>
-              <Image
+              <Text style={styles.title}>{user.name}</Text>
+              {
+                user.fotoPerfil === ""
+                ?
+                <Image
+                source={{ uri:  "https://i.pinimg.com/550x/a8/0e/36/a80e3690318c08114011145fdcfa3ddb.jpg"}}
+                style={styles.imgPerfil}
+                resizeMode='contain'
+              />
+                :
+                <Image
                 source={{ uri: user.fotoPerfil }}
                 style={styles.imgPerfil}
                 resizeMode='contain'
               />
+              }
               <Text style={styles.mail}>{user.owner}</Text>
               <Text style={styles.minBio}>{user.minBio}</Text>
             </View>
@@ -169,12 +178,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff', // Texto blanco
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  textProfile: {
-    fontSize: 20,
-    color: '#fff',
     marginBottom: 10,
     textAlign: 'center',
   },

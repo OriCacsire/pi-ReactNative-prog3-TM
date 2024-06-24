@@ -42,17 +42,6 @@ export default class CargarFotoPerfil extends Component {
                 <MyImagePicker
                     actualizarImgUrl={(url) => this.actualizarImgUrl(url)}
                 />
-                {
-                    // Agregar boton para continuar sin foto de perfil
-                    this.state.fotoPerfil !== '' ?
-                        <TouchableOpacity
-                            onPress={() => this.saveImg(this.state.fotoPerfil)}
-                        >
-                            <Text>Añadir foto de perfil</Text>
-                        </TouchableOpacity>
-                        :
-                        null
-                }
                 <Text style={styles.textLink}>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('login')}

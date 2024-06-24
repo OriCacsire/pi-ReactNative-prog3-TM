@@ -61,7 +61,7 @@ export default class CrearPost extends Component {
               <TouchableOpacity
                 onPress={() => this.onSubmit(this.state.descripcion)}
               >
-                <Text >Crear posteo</Text>
+                <Text style={styles.whiteText}>Crear posteo</Text>
               </TouchableOpacity>
             </>
         }
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1a1a1a', // Fondo oscuro
-    padding: 20,
   },
   title: {
     fontSize: 25,
@@ -103,4 +102,7 @@ const styles = StyleSheet.create({
     color: '#f0f0f0', // Texto claro
     fontWeight: 'bold',
   },
+  whiteText: {
+    color: '#fff', // Texto blanco
+  }
 })
