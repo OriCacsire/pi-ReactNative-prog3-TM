@@ -58,7 +58,6 @@ export default class Home extends Component {
                 {/* Para poder redirigir a mi perfil/perfil usuario/comentarios en post se necesita tener como props navigation */}
                 <Post  navigation={this.props.navigation} post = {item}/>
               </View>
-
           }
           />
         </View>

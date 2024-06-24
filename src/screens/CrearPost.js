@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#f0f0f0', // Texto claro
+    alignItems:'center'
   },
   textInput: {
     height: 40,

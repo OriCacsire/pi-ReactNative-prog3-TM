@@ -16,8 +16,8 @@ export default class MyProfile extends Component {
 
   componentDidMount() {
     //Verificación usuario logueado
-    auth.onAuthStateChanged((user)=>{
-      if(user === null){
+    auth.onAuthStateChanged((user) => {
+      if (user === null) {
         this.props.navigation.navigate('login')
       }
     });
@@ -99,66 +99,69 @@ export default class MyProfile extends Component {
               <Text style={styles.title}>{user.name}</Text>
               {
                 user.fotoPerfil === ""
-                ?
-                <Image
-                source={{ uri:  "https://i.pinimg.com/550x/a8/0e/36/a80e3690318c08114011145fdcfa3ddb.jpg"}}
-                style={styles.imgPerfil}
-                resizeMode='contain'
-              />
-                :
-                <Image
-                source={{ uri: user.fotoPerfil }}
-                style={styles.imgPerfil}
-                resizeMode='contain'
-              />
+                  ?
+                  <Image
+                    source={{ uri: "https://i.pinimg.com/550x/a8/0e/36/a80e3690318c08114011145fdcfa3ddb.jpg" }}
+                    style={styles.imgPerfil}
+                    resizeMode='contain'
+                  />
+                  :
+                  <Image
+                    source={{ uri: user.fotoPerfil }}
+                    style={styles.imgPerfil}
+                    resizeMode='contain'
+                  />
               }
               <Text style={styles.mail}>{user.owner}</Text>
               <Text style={styles.minBio}>{user.minBio}</Text>
+
+              <View style={styles.postUser}>
+                <Text style={styles.title}>Tus Posteos:{this.state.posteos.length}</Text>
+                {
+                  this.state.posteos.length > 0
+                    ?
+                    <View style={styles.listPost}>
+                      <FlatList
+                        data={this.state.posteos}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) =>
+                          <View style={styles.postContainer}>
+                            <Post post={item} />
+                            <TouchableOpacity style={styles.deleteButton} onPress={() => this.eliminarPost(item.id)}>
+                              <Text style={styles.buttonText}> Eliminar posteo</Text>
+                            </TouchableOpacity>
+                          </View>
+                        }
+                      />
+                    </View>
+                    :
+                    <Text style={styles.emptyText}> El usuario no tiene posteos</Text>
+                }
+
+              </View>
+
+              <View style={styles.contenedorBtn}>
+                <TouchableOpacity
+                  onPress={() => this.cerrarSesion()}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Cerrar Sesión</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => this.eliminarUsuario()}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Eliminar usuario</Text>
+                </TouchableOpacity>
+              </View>
             </View>
+
             :
-            <Text>Cargando ...</Text>
+            ''
         }
 
-        <View style={styles.postUser}>
-          <Text style={styles.title}>Tus Posteos:{this.state.posteos.length}</Text>
-          {
-            this.state.posteos.length > 0
-              ?
-              <View style={styles.listPost}>
-                <FlatList
-                  data={this.state.posteos}
-                  keyExtractor={(item) => item.id.toString()}
-                  renderItem={({ item }) =>
-                    <View style={styles.postContainer}>
-                      <Post post={item} />
-                      <TouchableOpacity style={styles.deleteButton} onPress={() => this.eliminarPost(item.id)}>
-                        <Text style={styles.buttonText}> Eliminar posteo</Text>
-                      </TouchableOpacity>
-                    </View>
-                  }
-                />
-              </View>
-              :
-              <Text style={styles.emptyText}> El usuario no tiene posteos</Text>
-          }
 
-        </View>
-
-        <View style={styles.contenedorBtn}>
-          <TouchableOpacity
-            onPress={() => this.cerrarSesion()}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Cerrar Sesión</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => this.eliminarUsuario()}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Eliminar usuario</Text>
-          </TouchableOpacity>
-        </View>
 
       </ScrollView >
     );

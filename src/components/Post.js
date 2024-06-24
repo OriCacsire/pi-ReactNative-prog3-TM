@@ -17,12 +17,12 @@ export default class Post extends Component {
 
 
     componentDidMount() {
-        console.log('mira',this.props)
+        console.log('mira', this.props)
         let estaMiLike = this.props.post.data.likes.includes(auth.currentUser.email)
         this.setState({ estaMiLike: estaMiLike })
 
-        let commentsFiltrados = this.props.post.data.comments.reverse().slice(0,4) //Primero invierte el orden de modo que quedan de más nuevo a más viejo, despúes corta el array y agarra solo los primeros 4 datos
-        this.setState({comentarios: commentsFiltrados})
+        let commentsFiltrados = this.props.post.data.comments.reverse().slice(0, 4) //Primero invierte el orden de modo que quedan de más nuevo a más viejo, despúes corta el array y agarra solo los primeros 4 datos
+        this.setState({ comentarios: commentsFiltrados })
 
     }
 
@@ -53,11 +53,11 @@ export default class Post extends Component {
         // post es la props que viene de home. De esta se puede acceder a: data - id 
         {
             this.props.post.data.owner == auth.currentUser.email ?
-                this.props.navigation.navigate('MyProfile') 
+                this.props.navigation.navigate('MyProfile')
                 :
                 this.props.navigation.navigate('friendProfile', { user: this.props.post.data.owner })
         }
-   
+
     }
 
     render() {
@@ -68,43 +68,43 @@ export default class Post extends Component {
                 </TouchableOpacity>
                 <Image
                     style={styles.image}
-                    source={{uri: this.props.post.data.imageUrl}}
+                    source={{ uri: this.props.post.data.imageUrl }}
                     resizeMode='cover'
                 />
-                    {
-                        this.state.estaMiLike ?
-                            <TouchableOpacity
-                                onPress={() => this.unlike()}
-                            >
-                                <Text style={styles.textLikes}><Icon name="thumbs-down" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
+                {
+                    this.state.estaMiLike ?
+                        <TouchableOpacity
+                            onPress={() => this.unlike()}
+                        >
+                            <Text style={styles.textLikes}><Icon name="thumbs-down" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
 
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity
-                                onPress={() => this.like()}
-                            >
-                                <Text style={styles.textLikes}><Icon name="thumbs-up" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity
+                            onPress={() => this.like()}
+                        >
+                            <Text style={styles.textLikes}><Icon name="thumbs-up" size={15} color="#fff" />  {this.props.post.data.likes.length} me gusta</Text>
 
-                            </TouchableOpacity>
-                    }
+                        </TouchableOpacity>
+                }
 
                 <View style={styles.containerComments}>
                     <TouchableOpacity onPress={() => this.irAComentar()}>
                         {
                             this.props.post.data.comments.length === 0 ?
-                            <Text style={styles.tituloComments}>Sé el primero en comentar</Text>
-                            :
-                            <Text style={styles.tituloComments}>Ver los {this.props.post.data.comments.length} comentarios </Text>
+                                <Text style={styles.tituloComments}>Sé el primero en comentar</Text>
+                                :
+                                <Text style={styles.tituloComments}>Ver los {this.props.post.data.comments.length} comentarios </Text>
                         }
                     </TouchableOpacity>
                     <FlatList
-                    data={this.state.comentarios}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => 
-                        <View>
-                            <Text style={styles.textComments}>{item.owner}: {item.text}</Text>
-                        </View>
-                    }
+                        data={this.state.comentarios}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) =>
+                            <View>
+                                <Text style={styles.textComments}>{item.owner}: {item.text}</Text>
+                            </View>
+                        }
                     />
 
                 </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         height: 260,
         marginBottom: 5,
         marginTop: 10
-      },
+    },
     textLikes: {
         color: '#fff', // Texto blanco,
         fontSize: 12,
@@ -136,22 +136,24 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
-      },
-      containerLikes: {
+        marginLeft: 5
+    },
+    containerLikes: {
         marginTop: 5
-      },
-      containerComments: {
+    },
+    containerComments: {
         marginTop: 12,
         marginBottom: 11
-      },
-      tituloComments: {
+    },
+    tituloComments: {
         fontSize: 14,
         color: '#9c9c9c', // Texto blanco,
-        marginBottom: 10
-      },
-      textComments: {
+        marginBottom: 10,
+        marginLeft:5
+    },
+    textComments: {
         color: '#fff', // Texto blanco,
         fontSize: 12,
-        
+        marginLeft: 2
     },
-  })
+})
