@@ -16,6 +16,12 @@ export default class Comments extends Component {
   }
 
   componentDidMount() {
+    //Verificación usuario logueado
+    auth.onAuthStateChanged((user)=>{
+      if(user === null){
+        this.props.navigation.navigate('login')
+      }
+    });
 
     // console.log('props', this.props)
     db.collection('posts')

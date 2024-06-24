@@ -16,6 +16,13 @@ export default class FriendProfile extends Component {
   }
 
   componentDidMount() {
+    //Verificación usuario logueado
+    auth.onAuthStateChanged((user)=>{
+      if(user === null){
+        this.props.navigation.navigate('login')
+      }
+    });
+    
     console.log('props', this.state.usuarios) //tenemos navigation y route
 
     db.collection('users')

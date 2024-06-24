@@ -12,6 +12,13 @@ export default class Home extends Component {
   }
 
   componentDidMount(){
+    //Verificación usuario logueado
+    auth.onAuthStateChanged((user)=>{
+      if(user === null){
+        this.props.navigation.navigate('login')
+      }
+    });
+    
     auth.onAuthStateChanged((user) => {
       if (user !== null) {
         // metodo collecion recibe como parametro el nombre de una colección. Con .onSnapshot se obtiene todos los doc de la coleccion y los coloca en el parametro docs

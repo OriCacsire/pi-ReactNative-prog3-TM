@@ -16,22 +16,20 @@ class Register extends Component {
       minBio: '',
       fotoPerfil: '',
       loading: false,
-      errors: {
-        errorName: '',
-        errorPassword: '',
-        errorMail: '',
-      },
-      mailExite: '',
+      errorName: '',
+      errorPassword: '',
+      errorMail: '',
+      mailExiste: '',
       userRegistrado: false,
       userId: '',
     }
   }
 
   componentDidMount(){
+    //Verificación usuario logueado
     auth.onAuthStateChanged((user)=>{
-      console.log(user);
       if(user){
-        this.props.navigation.navigate('login')
+        this.props.navigation.navigate('tabNav')
       }
     });
   }
@@ -39,25 +37,19 @@ class Register extends Component {
   onSubmit(email, password, name) {
     if (email === null || email === '' || email.includes('@') === false) {
       this.setState({
-        errors: {
           errorMail: 'Verifica que el correo electrónico sea válido', loading: false
-        },
       });
       return false;
     }
     else if (password === null || password === '' || password.length < 6) {
       this.setState({
-        errors: {
           errorPassword: 'La contraseña no puede estar vacía y debe tener más de 6 caracteres', loading: false
-        },
       });
       return false;
     }
     else if (name === null || name === '' || name.length < 6) {
       this.setState({
-        errors: {
-          errorName: 'Ingresa un nombre válido', loading:false
-        },
+        errorName: 'Ingresa un nombre válido', loading:false
       });
       return false;
     }
@@ -85,22 +77,19 @@ class Register extends Component {
               name: '',
               minBio: '',
               fotoPerfil: '',
-              errors: {
-                errorName: '',
-                errorPassword: '',
-                errorMail: '',
-              },
+              errorName: '',
+              errorPassword: '',
+              errorMail: '',
               loading: false,
-              mailExite: '',
+              mailExiste: '',
             }, () => console.log('log del estado', this.state)
             )
-            this.props.navigation.navigate('login')
           })
           .catch((err) => console.log(err))
       })
       .catch((err) => {
         console.log(err);
-        this.setState({ mailExite: err.message, loading: false })
+        this.setState({ mailExiste: err.message, loading: false })
       })
   }
 
@@ -168,19 +157,18 @@ class Register extends Component {
                 style={styles.input}
                 placeholder='Ingresar correo electrónico'
                 keyboardType="email-address"
-                onChangeText={(text) => this.setState({ email: text, errorMail: '' })}
+                onChangeText={(text) => this.setState({ email: text, errorMail: '', mailExiste: '' })}
                 value={this.state.email}
               />
-              {this.state.errors.errorMail !== ''
+              {this.state.errorMail !== ''
                 ?
-                <Text style={styles.errorText}>{this.state.errors.errorMail}</Text>
+                <Text style={styles.errorText}>{this.state.errorMail}</Text>
                 :
                 ''
               }
-              {this.state.mailExite !== ''
+              {this.state.mailExiste !== ''
                 ?
-                <Text style={styles.errorText}>{this.state.mailExite}</Text>
-
+                <Text style={styles.errorText}>{this.state.mailExiste}</Text>
                 :
                 ''
               }
@@ -194,9 +182,9 @@ class Register extends Component {
                 value={this.state.password}
               />
               {
-                this.state.errors.errorPassword !== ''
+                this.state.errorPassword !== ''
                   ?
-                  <Text style={styles.errorText}>{this.state.errors.errorPassword}</Text>
+                  <Text style={styles.errorText}>{this.state.errorPassword}</Text>
                   :
                   ''
               }
@@ -208,9 +196,9 @@ class Register extends Component {
                 value={this.state.name}
               />
 
-              {this.state.errors.errorName !== ''
+              {this.state.errorName !== ''
                 ?
-                <Text style={styles.errorText}>{this.state.errors.errorName}</Text>
+                <Text style={styles.errorText}>{this.state.errorName}</Text>
                 :
                 ''
               }

@@ -15,6 +15,13 @@ export default class MyProfile extends Component {
   }
 
   componentDidMount() {
+    //Verificación usuario logueado
+    auth.onAuthStateChanged((user)=>{
+      if(user === null){
+        this.props.navigation.navigate('login')
+      }
+    });
+
     const currentUser = auth.currentUser;
     if (currentUser) {
       this.setState({ estasLogueado: true });

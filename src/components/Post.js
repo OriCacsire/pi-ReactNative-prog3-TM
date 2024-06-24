@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         marginLeft: 2
     },
     ownerText: {
-        color: '#ecf0f1',
+        color: '#fff',
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,

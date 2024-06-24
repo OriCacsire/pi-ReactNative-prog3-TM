@@ -16,7 +16,15 @@ export default class Search extends Component {
     }
   }
 
-  componentDidMount() { //Trae todos los usuarios y los guarda en 2 arrays
+  componentDidMount() {
+    //Verificación usuario logueado
+    auth.onAuthStateChanged((user)=>{
+      if(user === null){
+        this.props.navigation.navigate('login')
+      }
+    });
+
+    //Trae todos los usuarios y los guarda en 2 arrays
     db.collection("users").onSnapshot(docs => {
       let usersArray = []
       docs.forEach(doc => {
