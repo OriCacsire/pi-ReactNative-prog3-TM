@@ -156,7 +156,6 @@ export default class MyProfile extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-
             :
             ''
         }
